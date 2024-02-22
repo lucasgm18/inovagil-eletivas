@@ -14,15 +14,16 @@ datasource db {
 }
 
 model Classes {
-  id               String @id @default(cuid())
-  name             String
-  teacher          String
-  amountOfStudents Int
+  id                             String @id @default(cuid())
+  nome                           String
+  professor                      String
+  quantidadeDeAlunosMatriculados Int
 }
 
 model Students {
-  matricula Int      @id
-  birthDate DateTime
-  name      String
-  serie     Int
+  matricula        Int      @id
+  dataDeNascimento DateTime
+  nome             String
+  serie            Int
+  curso            String
 }
