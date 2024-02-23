@@ -14,16 +14,27 @@ datasource db {
 }
 
 model Classes {
-  id                             String @id @default(cuid())
-  nome                           String
-  professor                      String
-  quantidadeDeAlunosMatriculados Int
+  id                 String               @id @default(cuid())
+  nome               String
+  professor          String
+  serie              String
+  alunosMatriculados alunosMatriculados[]
+}
+
+model alunosMatriculados {
+  id        String @id @default(cuid())
+  classesId String @unique
+  studentId String @unique
+
+  turma  Classes  @relation(fields: [classesId], references: [id])
+  alunoe Students @relation(fields: [studentId], references: [matricula])
 }
 
 model Students {
-  matricula        Int      @id
-  dataDeNascimento DateTime
-  nome             String
-  serie            Int
-  curso            String
+  matricula          String               @id
+  dataDeNascimento   String
+  nome               String
+  serie              String
+  curso              String
+  alunosMatriculados alunosMatriculados[]
 }
