@@ -6,7 +6,7 @@ import cors from "@fastify/cors";
 const app = fastify();
 
 app.register(cors, {
-  origin: "*"
+  origin: "*",
 });
 
 app.register(EletivasRoutes, {
@@ -14,6 +14,10 @@ app.register(EletivasRoutes, {
 });
 app.register(AuthRoutes, {
   prefix: "/auth",
+});
+
+app.get("/", (req, res) => {
+  return res.status(200).send("Server is running");
 });
 
 app.listen(

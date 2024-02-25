@@ -18,11 +18,11 @@ export interface UserProps {
   nome: string;
   serie: string;
   curso: string;
-  alunosMatriculados: {
+  turmasCadastradas: {
     id: string;
     classesId: string;
     studentId: string;
-  };
+  }[];
 }
 
 export const AuthContext = createContext({} as AuthContextProps);

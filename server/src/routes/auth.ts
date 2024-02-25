@@ -15,6 +15,9 @@ export async function AuthRoutes(app: FastifyInstance) {
       where: {
         matricula,
       },
+      include: {
+        turmasCadastradas: true,
+      },
     });
     if (user) {
       res.status(200).send(user);

@@ -18,23 +18,24 @@ model Classes {
   nome               String
   professor          String
   serie              String
+  quantidadeDeAlunos Int                  @default(0)
   alunosMatriculados alunosMatriculados[]
 }
 
 model alunosMatriculados {
   id        String @id @default(cuid())
-  classesId String @unique
+  classesId String
   studentId String @unique
 
-  turma  Classes  @relation(fields: [classesId], references: [id])
-  alunoe Students @relation(fields: [studentId], references: [matricula])
+  turma Classes  @relation(fields: [classesId], references: [id])
+  aluno Students @relation(fields: [studentId], references: [matricula])
 }
 
 model Students {
-  matricula          String               @id
-  dataDeNascimento   String
-  nome               String
-  serie              String
-  curso              String
-  alunosMatriculados alunosMatriculados[]
+  matricula         String               @id
+  dataDeNascimento  String
+  nome              String
+  serie             String
+  curso             String
+  turmasCadastradas alunosMatriculados[]
 }
