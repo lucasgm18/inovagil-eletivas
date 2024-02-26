@@ -16,24 +16,24 @@ export async function EletivasRoutes(app: FastifyInstance) {
     res.status(200).send(classes);
   });
 
-  app.get("/:classId", async (req, res) => {
-    const paramsSchema = z.object({
-      classId: z.string(),
-    });
+  // app.get("/:classId", async (req, res) => {
+  //   const paramsSchema = z.object({
+  //     classId: z.string(),
+  //   });
 
-    const { classId } = paramsSchema.parse(req.params);
+  //   const { classId } = paramsSchema.parse(req.params);
 
-    const turma = await prisma.classes.findUnique({
-      where: {
-        id: classId,
-      },
-    });
+  //   const turma = await prisma.classes.findUnique({
+  //     where: {
+  //       id: classId,
+  //     },
+  //   });
 
-    if (!turma) {
-      return res.status(500).send("Id da Turma inválido");
-    }
-    return res.status(200).send(turma);
-  });
+  //   if (!turma) {
+  //     return res.status(500).send("Id da Turma inválido");
+  //   }
+  //   return res.status(200).send(turma);
+  // });
 
   app.post("/", async (req, res) => {
     const bodySchema = z.object({
