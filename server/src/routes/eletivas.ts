@@ -54,37 +54,84 @@ export async function EletivasRoutes(app: FastifyInstance) {
         id: classId,
       },
     });
-    const pivo = await prisma.alunosMatriculados.findFirst({
+
+    const pivo = await prisma.alunosMatriculados.findMany({
       where: {
         studentId: user.matricula,
       },
     });
 
-    if (pivo /*&& user.serie !== "2"*/) {
-      if (pivo.classesId === turma.id) {
-        res.status(500).send("Usuário já cadastrado na disciplina");
+    if (user.serie === "2") {
+      if (pivo.length === 1) {
+        if (pivo[0].classesId === classId) {
+          return res.status(500).send("Usuário já cadastrado nessa disciplina");
+        }
+        const novaMatricula = await prisma.alunosMatriculados.create({
+          data: {
+            classesId: turma.id,
+            studentId: user.matricula,
+          },
+        });
+        await prisma.classes.update({
+          where: {
+            id: classId,
+          },
+          data: {
+            quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
+          },
+        });
+        console.log("Cadastrou a segunda");
+        return res.status(200).send(`Nova matricula em ${novaMatricula.id}`);
       }
+      if (pivo.length === 2) {
+        if (pivo[0].classesId === turma.id || pivo[1].classesId === turma.id) {
+          return res.status(500).send("Usuário já cadastrado nessa disciplina");
+        }
+        const classFromPivo = await prisma.classes.findUnique({
+          where: {
+            id: pivo[0].classesId,
+          },
+        });
 
-      const classFromPivo = await prisma.classes.findFirst({
-        where: {
-          id: pivo.classesId,
-        },
-      });
-      await prisma.classes.update({
-        where: {
-          id: pivo.classesId,
-        },
+        await prisma.alunosMatriculados.delete({
+          where: {
+            id: pivo[0].id,
+          },
+        });
+        
+        await prisma.classes.update({
+          where: {
+            id: pivo[0].classesId,
+          },
+          data: {
+            quantidadeDeAlunos: classFromPivo.quantidadeDeAlunos - 1,
+          },
+        });
+
+        const novaMatricula = await prisma.alunosMatriculados.create({
+          data: {
+            classesId: turma.id,
+            studentId: user.matricula,
+          },
+        });
+
+        await prisma.classes.update({
+          where: {
+            id: turma.id,
+          },
+          data: {
+            quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
+          },
+        });
+        console.log("Cadastrou a segunda, deletando a primeira");
+        return res.status(200).send(`Nova matricula em ${novaMatricula.id}`);
+      }
+      const novaMatricula = await prisma.alunosMatriculados.create({
         data: {
-          quantidadeDeAlunos: classFromPivo.quantidadeDeAlunos - 1,
+          classesId: turma.id,
+          studentId: user.matricula,
         },
       });
-
-      await prisma.alunosMatriculados.delete({
-        where: {
-          id: pivo.id,
-        },
-      });
-      console.log("deletou uma pivo");
       await prisma.classes.update({
         where: {
           id: classId,
@@ -93,40 +140,63 @@ export async function EletivasRoutes(app: FastifyInstance) {
           quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
         },
       });
+      console.log("Cadastrou a primeira");
+      return res.status(200).send(`Nova matricula em ${novaMatricula.id}`);
+    }
+
+    if (pivo) {
+      if (pivo[0].classesId === turma.id) {
+        return res.status(500).send("Usuário já cadastrado na disciplina");
+      }
+
+      const classFromPivo = await prisma.classes.findUnique({
+        where: {
+          id: pivo[0].classesId,
+        },
+      });
+
+      await prisma.alunosMatriculados.delete({
+        where: {
+          id: pivo[0].id,
+        },
+      });
+
+      await prisma.classes.update({
+        where: {
+          id: classFromPivo.id,
+        },
+        data: {
+          quantidadeDeAlunos: classFromPivo.quantidadeDeAlunos - 1,
+        },
+      });
+
       const novaMatricula = await prisma.alunosMatriculados.create({
         data: {
           studentId: user.matricula,
           classesId: classId,
         },
       });
-      res.status(200).send(`usuário cadastrado em: ${novaMatricula}`);
+
+      await prisma.classes.update({
+        where: {
+          id: classId,
+        },
+        data: {
+          quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
+        },
+      });
+
+      return res.status(200).send(`usuário cadastrado em: ${novaMatricula}`);
     }
 
-    // if (user.serie === "2") {
-    //   const turmas = await prisma.alunosMatriculados.findMany({
-    //     where: {
-    //       studentId: user.matricula,
-    //     },
-    //   });
+    const novaMatricula = await prisma.alunosMatriculados.create({
+      data: {
+        studentId: user.matricula,
+        classesId: classId,
+      },
+    });
 
-    //   if (turmas.length >= 2) {
-    //     await prisma.alunosMatriculados.delete({
-    //       where: {
-    //         id: turmas[0].id,
-    //       },
-    //     });
-
-    //     const novaMatricula = await prisma.alunosMatriculados.create({
-    //       data: {
-    //         classesId: turma.id,
-    //         studentId: user.matricula,
-    //       },
-    //     });
-
-    //     return res.status(200).send(`Nova matricula em ${novaMatricula.id}`);
-    //   }
-    // }
-    const atualizarTabela = await prisma.classes.update({
+    await prisma.classes.update({
       where: {
         id: classId,
       },
@@ -134,12 +204,8 @@ export async function EletivasRoutes(app: FastifyInstance) {
         quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
       },
     });
-    const novaMatricula = await prisma.alunosMatriculados.create({
-      data: {
-        studentId: user.matricula,
-        classesId: classId,
-      },
-    });
-    res.status(200).send(`usuário cadastrado em: ${novaMatricula}`);
+    console.log("Cadastrou a primeira");
+
+    return res.status(200).send(`usuário cadastrado em: ${novaMatricula}`);
   });
 }

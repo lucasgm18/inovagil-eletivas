@@ -11,7 +11,7 @@ export interface ClassesContextProps {
     matricula: string;
     classId: string;
   }) => void;
-  getRegisteredClass: (classId: string | string[]) => void;
+  getRegisteredClass: (classId: string[]) => void;
   classes: ClassesProps[];
   turmaCadastrada: ClassesProps[];
 }
@@ -35,10 +35,14 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     setClasses(data);
   }
 
-  async function getRegisteredClass(classId: string | string[]) {
-    const { data } = await api.get(`/class/turma/${classId}`);
-    console.log(data)
-    setTurmaCadastrada([data]);
+  async function getRegisteredClass(classId: string[]) {
+    setTurmaCadastrada([]);
+    const ids = classId;
+
+    ids.map(async (id) => {
+      const { data } = await api.get(`/class/turma/${id}`);
+      setTurmaCadastrada((prev) => [...prev, data]);
+    });
   }
 
   async function registerClasses({

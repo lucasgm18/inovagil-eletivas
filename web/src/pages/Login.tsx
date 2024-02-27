@@ -2,11 +2,12 @@ import Input from "../components/Input";
 import Logo from "../assets/logo.png";
 import { FormEvent, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import clsx from "clsx";
 
 function Login() {
   const [matricula, setMatricula] = useState("");
-  const [dataDeNascimento, setDataDeNasciment] = useState("");
-  const { login } = useAuth();
+  const [dataDeNascimento, setDataDeNascimento] = useState("");
+  const { login, authorized } = useAuth();
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -15,8 +16,8 @@ function Login() {
   return (
     <div className="w-full bg-slate-900 flex-col flex items-center justify-start flex-1 min-h-screen text-zinc-50 pb-12">
       <img src={Logo} className="size-48" alt="" />
-      <div className="flex items-center flex-col justify-center text-center space-y-2 my-2">
-        <h1 className="text-4xl font-bold">Bem vindo(a)</h1>
+      <div className="flex items-center flex-col justify-center text-center space-y-6 md:space-y-2 my-2 pb-4">
+        <h1 className="text-3xl md:text-4xl font-bold">Bem vindo(a)</h1>
         <span className="text-xl">
           Faça login para ter acesso a todas as funcionalidades
         </span>
@@ -36,15 +37,25 @@ function Login() {
             />
             <Input
               value={dataDeNascimento}
-              onChange={(e) => setDataDeNasciment(e.target.value)}
+              onChange={(e) => setDataDeNascimento(e.target.value)}
               type="date"
               label="Escolha sua data de nascimento"
+              data-format="00/00/0000"
             />
           </div>
           <div className="w-full flex items-center justify-center">
-            <button className="bg-blue-800 px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer">
+            <button className="bg-blue-800 px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400">
               Login
             </button>
+          </div>
+
+          <div
+            className={clsx({
+              hidden: authorized === undefined,
+              visible: authorized === false,
+            })}
+          >
+            <p className="text-red-500 text-sm">Usuário não validado</p>
           </div>
         </form>
       </div>

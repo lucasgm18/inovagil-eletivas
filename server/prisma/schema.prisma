@@ -25,7 +25,7 @@ model Classes {
 model alunosMatriculados {
   id        String @id @default(cuid())
   classesId String
-  studentId String @unique
+  studentId String
 
   turma Classes  @relation(fields: [classesId], references: [id])
   aluno Students @relation(fields: [studentId], references: [matricula])

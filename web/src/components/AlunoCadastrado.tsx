@@ -1,26 +1,24 @@
-import React, { useEffect } from "react";
 import { UserProps } from "../context/auth";
 import { useClasses } from "../hooks/useClasses";
 
 function AlunoCadastrado({ user }: { user: UserProps }) {
-  const { getRegisteredClass, turmaCadastrada } = useClasses();
-  const eletivaMatriculada = user.turmasCadastradas.filter((turma) => {
-    return turma.studentId === user.matricula;
-  });
+  const { turmaCadastrada } = useClasses();
 
-  useEffect(() => {
-    getRegisteredClass(eletivaMatriculada[0].classesId);
-  }, []);
-
-  if (!turmaCadastrada) {
+  if (turmaCadastrada.length <= 0) {
     return <p>loading</p>;
   }
-
+  console.log(turmaCadastrada);
   return (
     <div className="flex w-full items-center justify-center">
       <span>
-        Você já está cadastrado na turma {turmaCadastrada[0].nome}, caso deseje
-        trocar sua matrícula, basta selecionar uma outra disciplina
+        Você já está cadastrado na turma{" "}
+        {turmaCadastrada
+          .map((turma) => {
+            return turma.nome;
+          })
+          .join(" e ")}
+        , caso deseje trocar sua matrícula, basta selecionar uma outra
+        disciplina
       </span>
     </div>
   );

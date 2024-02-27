@@ -14,7 +14,7 @@ function Input({ placeholder, type, label, ...rest }: InputProps) {
         type={type}
         name="matricula"
         className="
-              border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-1 py-2 rounded-md"
+              border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-2 text-zinc-50 py-2 rounded-md"
         placeholder={placeholder}
         {...rest}
       />

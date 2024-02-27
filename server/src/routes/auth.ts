@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 
+
 export async function AuthRoutes(app: FastifyInstance) {
   app.post("/", async (req, res) => {
     const bodySchema = z.object({
@@ -10,7 +11,7 @@ export async function AuthRoutes(app: FastifyInstance) {
     });
 
     const { matricula, dataDeNascimento } = bodySchema.parse(req.body);
-
+    const date = dataDeNascimento.split("-").reverse().join("/");
     const user = await prisma.students.findUnique({
       where: {
         matricula,
@@ -19,9 +20,9 @@ export async function AuthRoutes(app: FastifyInstance) {
         turmasCadastradas: true,
       },
     });
-    if (user) {
+    if (user.dataDeNascimento === date) {
       res.status(200).send(user);
     }
-    res.status(200).send(false);
+    res.status(500).send("Usuário não validado");
   });
 }

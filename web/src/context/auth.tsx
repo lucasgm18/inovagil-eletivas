@@ -10,6 +10,7 @@ export interface AuthContextProps {
     dataDeNascimento: string;
   }) => void;
   user: UserProps | undefined;
+  authorized: boolean | undefined;
 }
 
 export interface UserProps {
@@ -29,6 +30,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProps>();
+  const [authorized, setAuthorized] = useState<boolean | undefined>();
   async function login({
     matricula,
     dataDeNascimento,
@@ -36,19 +38,25 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
     matricula: string;
     dataDeNascimento: string;
   }) {
+    setAuthorized(undefined);
     if (matricula && dataDeNascimento) {
-      const user = await api.post("/auth", {
-        matricula,
-        dataDeNascimento,
-      });
-
-      console.log(user.data);
-      setUser(user.data);
+      try {
+        const user = await api.post("/auth", {
+          matricula,
+          dataDeNascimento,
+        });
+        console.log(user.data);
+        setUser(user.data);
+        setAuthorized(true);
+      } catch (error) {
+        setAuthorized(false);
+        // alert("Usuario não validado");
+      }
     }
   }
 
   return (
-    <AuthContext.Provider value={{ login, user }}>
+    <AuthContext.Provider value={{ authorized, login, user }}>
       {children}
     </AuthContext.Provider>
   );

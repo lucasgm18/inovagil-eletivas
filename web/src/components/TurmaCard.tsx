@@ -4,11 +4,12 @@ import { ClassesProps } from "../context/classes";
 import { useAuth } from "../hooks/useAuth";
 import { FormEvent, useState } from "react";
 import { useClasses } from "../hooks/useClasses";
+import clsx from "clsx";
 
 function TurmaCard({ turma }: { turma: ClassesProps }) {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
-  const { registerClasses } = useClasses();
+  const { registerClasses, turmaCadastrada } = useClasses();
 
   if (!user) {
     return <div>Carregando ...</div>;
@@ -18,15 +19,35 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
     e.preventDefault();
     registerClasses({ matricula: user!.matricula, classId: turma.id });
     setOpen(false);
+    location.reload();
+  }
+
+  function handleBgColor(id: string) {
+    const matches = turmaCadastrada.filter((cadastrada) => {
+      return cadastrada.id === id;
+    });
+    if (matches.length !== 0) {
+      console.log(matches[0].id);
+      return true;
+    }
+    return false;
   }
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger className="w-full flex flex-col items-center justify-center space-y-4 bg-slate-800 rounded hover:bg-slate-700 py-6 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400">
-        <span>{turma.nome}</span>
-        <span>{turma.professor}</span>
-        <span>{turma.quantidadeDeAlunos}/45</span>
-        <span className="text-sm text-zinc-600">{turma.id}</span>
+      <Dialog.Trigger
+        className={clsx(
+          "w-full flex flex-col items-center justify-center space-y-6 bg-slate-800 rounded hover:bg-slate-700 py-6 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400",
+          {
+            "bg-lime-800 hover:bg-lime-700 hover:ring-lime-200": handleBgColor(
+              turma.id
+            ),
+          }
+        )}
+      >
+        <span>Disciplina: {turma.nome}</span>
+        <span>Professor: {turma.professor}</span>
+        <span>Vagas: {turma.quantidadeDeAlunos}/45</span>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/60">
@@ -38,19 +59,7 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
               onSubmit={handleSubmit}
               className="flex items-center flex-col justify-start text-center h-screen"
             >
-              {user.turmasCadastradas[0] ? (
-                <div>
-                  <p>
-                    Você esta cadastrado na turma:
-                    <span>
-                      {turma.id === user.turmasCadastradas[0].classesId
-                        ? turma.nome
-                        : null}
-                    </span>
-                  </p>
-                </div>
-              ) : null}
-              <p className="text-xl text-zinc-50 py-12 px-4">
+              <p className="text-xl text-zinc-50 py-12 px-4 md:px-24">
                 Você tem certeza que deseja se cadastrar na eletiva{" "}
                 <span className="text-lime-500 relative">{turma.nome}</span>
               </p>

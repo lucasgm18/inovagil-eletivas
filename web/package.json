@@ -12,6 +12,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "axios": "^1.6.7",
+    "clsx": "^2.1.0",
     "localforage": "^1.10.0",
     "lucide-react": "^0.338.0",
     "match-sorter": "^6.3.4",
