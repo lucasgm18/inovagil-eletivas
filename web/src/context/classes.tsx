@@ -11,8 +11,9 @@ export interface ClassesContextProps {
     matricula: string;
     classId: string;
   }) => void;
+  getRegisteredClass: (classId: string | string[]) => void;
   classes: ClassesProps[];
-  count: { classId: string; count: number }[];
+  turmaCadastrada: ClassesProps[];
 }
 
 export interface ClassesProps {
@@ -27,12 +28,17 @@ export const ClassesContext = createContext({} as ClassesContextProps);
 
 export function ClassesContextProvider({ children }: { children: ReactNode }) {
   const [classes, setClasses] = useState<ClassesProps[]>([]);
-  const [count, setCount] = useState<{ classId: string; count: number }[]>([]);
+  const [turmaCadastrada, setTurmaCadastrada] = useState<ClassesProps[]>([]);
   async function getClassesBySerie({ serie }: { serie: string }) {
     setClasses([]);
-    setCount([]);
     const { data }: AxiosResponse = await api.get(`/class/${serie}`);
     setClasses(data);
+  }
+
+  async function getRegisteredClass(classId: string | string[]) {
+    const { data } = await api.get(`/class/turma/${classId}`);
+    console.log(data)
+    setTurmaCadastrada([data]);
   }
 
   async function registerClasses({
@@ -51,7 +57,13 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
   }
   return (
     <ClassesContext.Provider
-      value={{ getClassesBySerie, registerClasses, classes, count }}
+      value={{
+        getClassesBySerie,
+        registerClasses,
+        getRegisteredClass,
+        classes,
+        turmaCadastrada,
+      }}
     >
       {children}
     </ClassesContext.Provider>

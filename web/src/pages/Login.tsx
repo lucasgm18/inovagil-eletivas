@@ -14,8 +14,8 @@ function Login() {
   }
   return (
     <div className="w-full bg-slate-900 flex-col flex items-center justify-start flex-1 min-h-screen text-zinc-50 pb-12">
-      <img src={Logo} className="size-56" alt="" />
-      <div className="flex items-center flex-col justify-center text-center space-y-2 mb-12">
+      <img src={Logo} className="size-48" alt="" />
+      <div className="flex items-center flex-col justify-center text-center space-y-2 my-2">
         <h1 className="text-4xl font-bold">Bem vindo(a)</h1>
         <span className="text-xl">
           Faça login para ter acesso a todas as funcionalidades
