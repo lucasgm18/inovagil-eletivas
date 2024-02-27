@@ -1,7 +1,7 @@
-import { UserProps } from "../context/auth";
 import { useClasses } from "../hooks/useClasses";
 
-function AlunoCadastrado({ user }: { user: UserProps }) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function AlunoCadastrado() {
   const { turmaCadastrada } = useClasses();
 
   if (turmaCadastrada.length <= 0) {

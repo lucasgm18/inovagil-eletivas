@@ -34,7 +34,7 @@ function Home() {
         </div>
         <div className="text-center w-full">
           {eletivaMatriculada.length > 0 ? (
-            <AlunoCadastrado user={user} />
+            <AlunoCadastrado />
           ) : (
             <p>
               Como você é do {user.serie} ano, você pode selecionar uma dentre
