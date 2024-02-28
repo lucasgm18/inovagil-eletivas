@@ -19,7 +19,13 @@ model Classes {
   professor          String
   serie              String
   quantidadeDeAlunos Int                  @default(0)
+  diaDaSemana DiaDaSemana @default(TERCA)
   alunosMatriculados alunosMatriculados[]
+}
+
+enum DiaDaSemana {
+  TERCA
+  QUINTA
 }
 
 model alunosMatriculados {
@@ -30,6 +36,7 @@ model alunosMatriculados {
   turma Classes  @relation(fields: [classesId], references: [id])
   aluno Students @relation(fields: [studentId], references: [matricula])
 }
+
 
 model Students {
   matricula         String               @id

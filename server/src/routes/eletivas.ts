@@ -63,9 +63,19 @@ export async function EletivasRoutes(app: FastifyInstance) {
 
     if (user.serie === "2") {
       if (pivo.length === 1) {
+        const classFromPivo = await prisma.classes.findUnique({
+          where: {
+            id: pivo[0].classesId,
+          },
+        });
         if (pivo[0].classesId === classId) {
           return res.status(500).send("Usuário já cadastrado nessa disciplina");
+        } else if (classFromPivo.diaDaSemana === turma.diaDaSemana) {
+          return res
+            .status(500)
+            .send("O usuário já está cadastrado em uma turma no dia escolhido");
         }
+
         const novaMatricula = await prisma.alunosMatriculados.create({
           data: {
             classesId: turma.id,
@@ -90,15 +100,22 @@ export async function EletivasRoutes(app: FastifyInstance) {
         const classFromPivo = await prisma.classes.findUnique({
           where: {
             id: pivo[0].classesId,
-          },
+          }, 
         });
+        if (classFromPivo.diaDaSemana !== turma.diaDaSemana) {
+          return res
+            .status(500)
+            .send(
+              "Você não pode se cadastrar em duas disciplinas do mesmo dia"
+            );
+        }
 
         await prisma.alunosMatriculados.delete({
           where: {
             id: pivo[0].id,
           },
         });
-        
+
         await prisma.classes.update({
           where: {
             id: pivo[0].classesId,

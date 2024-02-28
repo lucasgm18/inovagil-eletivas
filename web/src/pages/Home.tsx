@@ -37,7 +37,7 @@ function Home() {
             <AlunoCadastrado />
           ) : (
             <p>
-              Como você é do {user.serie} ano, você pode selecionar uma dentre
+              Como você é do {user.serie} ano, você pode selecionar {user.serie === "2" ? "duas" : "uma" } dentre
               essas eletivas
             </p>
           )}
