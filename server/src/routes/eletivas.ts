@@ -71,9 +71,40 @@ export async function EletivasRoutes(app: FastifyInstance) {
         if (pivo[0].classesId === classId) {
           return res.status(500).send("Usuário já cadastrado nessa disciplina");
         } else if (classFromPivo.diaDaSemana === turma.diaDaSemana) {
+          await prisma.alunosMatriculados.delete({
+            where: {
+              id: pivo[0].id,
+            },
+          });
+
+          await prisma.classes.update({
+            where: {
+              id: classFromPivo.id,
+            },
+            data: {
+              quantidadeDeAlunos: classFromPivo.quantidadeDeAlunos - 1,
+            },
+          });
+
+          const novaMatricula = await prisma.alunosMatriculados.create({
+            data: {
+              classesId: turma.id,
+              studentId: user.matricula,
+            },
+          });
+
+          await prisma.classes.update({
+            where: {
+              id: turma.id,
+            },
+            data: {
+              quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
+            },
+          });
+
           return res
-            .status(500)
-            .send("O usuário já está cadastrado em uma turma no dia escolhido");
+            .status(200)
+            .send(`Usuário cadastrado na turma ${novaMatricula}`);
         }
 
         const novaMatricula = await prisma.alunosMatriculados.create({
@@ -97,17 +128,84 @@ export async function EletivasRoutes(app: FastifyInstance) {
         if (pivo[0].classesId === turma.id || pivo[1].classesId === turma.id) {
           return res.status(500).send("Usuário já cadastrado nessa disciplina");
         }
-        const classFromPivo = await prisma.classes.findUnique({
+        const firstClassFromPivo = await prisma.classes.findUnique({
           where: {
             id: pivo[0].classesId,
-          }, 
+          },
         });
-        if (classFromPivo.diaDaSemana !== turma.diaDaSemana) {
+        const secondClassFromPivo = await prisma.classes.findUnique({
+          where: {
+            id: pivo[1].classesId,
+          },
+        });
+        if (firstClassFromPivo.diaDaSemana === turma.diaDaSemana) {
+          await prisma.alunosMatriculados.delete({
+            where: {
+              id: pivo[0].id,
+            },
+          });
+
+          await prisma.classes.update({
+            where: {
+              id: firstClassFromPivo.id,
+            },
+            data: {
+              quantidadeDeAlunos: firstClassFromPivo.quantidadeDeAlunos - 1,
+            },
+          });
+
+          const novaMatricula = await prisma.alunosMatriculados.create({
+            data: {
+              classesId: turma.id,
+              studentId: user.matricula,
+            },
+          });
+
+          await prisma.classes.update({
+            where: {
+              id: turma.id,
+            },
+            data: {
+              quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
+            },
+          });
           return res
-            .status(500)
-            .send(
-              "Você não pode se cadastrar em duas disciplinas do mesmo dia"
-            );
+            .status(200)
+            .send(`Aluno cadastrado na nova turma ${novaMatricula}`);
+        }else if(secondClassFromPivo.diaDaSemana === turma.diaDaSemana){
+          await prisma.alunosMatriculados.delete({
+            where: {
+              id: pivo[0].id,
+            },
+          });
+
+          await prisma.classes.update({
+            where: {
+              id: secondClassFromPivo.id,
+            },
+            data: {
+              quantidadeDeAlunos: secondClassFromPivo.quantidadeDeAlunos - 1,
+            },
+          });
+
+          const novaMatricula = await prisma.alunosMatriculados.create({
+            data: {
+              classesId: turma.id,
+              studentId: user.matricula,
+            },
+          });
+
+          await prisma.classes.update({
+            where: {
+              id: turma.id,
+            },
+            data: {
+              quantidadeDeAlunos: turma.quantidadeDeAlunos + 1,
+            },
+          });
+          return res
+            .status(200)
+            .send(`Aluno cadastrado na nova turma ${novaMatricula}`);
         }
 
         await prisma.alunosMatriculados.delete({
@@ -121,7 +219,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
             id: pivo[0].classesId,
           },
           data: {
-            quantidadeDeAlunos: classFromPivo.quantidadeDeAlunos - 1,
+            quantidadeDeAlunos: firstClassFromPivo.quantidadeDeAlunos - 1,
           },
         });
 
