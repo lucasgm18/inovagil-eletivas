@@ -11,6 +11,7 @@ export interface AuthContextProps {
   }) => void;
   user: UserProps | undefined;
   authorized: boolean | undefined;
+  logout: () => void;
 }
 
 export interface UserProps {
@@ -90,8 +91,14 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function logout() {
+    localStorage.removeItem("token");
+    setAuthorized(false);
+    setUser(undefined);
+  }
+
   return (
-    <AuthContext.Provider value={{ authorized, login, user }}>
+    <AuthContext.Provider value={{ logout, authorized, login, user }}>
       {children}
     </AuthContext.Provider>
   );

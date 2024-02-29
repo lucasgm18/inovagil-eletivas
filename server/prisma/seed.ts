@@ -1,95 +1,122 @@
 import { prisma } from "../src/lib/prisma";
+import * as fs from "fs";
+import { parse } from "csv-parse";
 
 async function main() {
+  const data = [];
+
+  fs.createReadStream("./src/dados/alunos.csv")
+    .pipe(
+      parse({
+        delimiter: ",",
+        columns: true,
+        ltrim: true,
+      })
+    )
+    .on("data", function (row) {
+      // This will push the object row into the array
+      data.push(row);
+    })
+    .on("error", function (error) {
+      console.log(error.message);
+    })
+    .on("end", function () {
+      // Here log the result array
+      console.log("parsed csv data:");
+      console.log(data);
+    });
+
+  await prisma.students.createMany({
+    data,
+  });
   await prisma.classes.createMany({
     data: [
       {
-        nome: "Eletiva 1",
-        professor: "Professor 1",
-
+        nome: "Educação financeira",
+        professor: "PAULO HERTON",
         serie: "1",
       },
       {
-        nome: "Eletiva 2",
-        professor: "Professor 2",
+        nome: "Iniciação Científica",
+        professor: "Daniel",
         serie: "1",
       },
       {
-        nome: "Eletiva 3",
-        professor: "Professor 3",
+        nome: "Esportes Alternativos",
+        professor: "Diego",
         serie: "1",
       },
       {
-        nome: "Eletiva 4",
-        professor: "Professor 4",
+        nome: "Natureza na Prática",
+        professor: "Fabíola",
         serie: "1",
       },
       {
-        nome: "Eletiva 1",
-        professor: "Professor 1",
+        nome: "BIOEMFOCO",
+        professor: "Fabíola",
         serie: "2",
         diaDaSemana: "TERCA",
       },
       {
-        nome: "Eletiva 2",
-        professor: "Professor 2",
+        nome: "Histórias em Quadrinhos",
+        professor: "Franci",
         serie: "2",
         diaDaSemana: "TERCA",
       },
       {
-        nome: "Eletiva 3",
-        professor: "Professor 3",
+        nome: "Historicidade da Cultura Corporal",
+        professor: "Eli",
         serie: "2",
         diaDaSemana: "TERCA",
       },
       {
-        nome: "Eletiva 4",
-        professor: "Professor 4",
+        nome: "Morfologia Vegetal",
+        professor: "Renato",
         serie: "2",
         diaDaSemana: "TERCA",
       },
       {
-        nome: "Eletiva 5",
-        professor: "Professor 5",
+        nome: "Natureza na Prática",
+        professor: "Fabiola",
         serie: "2",
         diaDaSemana: "QUINTA",
       },
       {
-        nome: "Eletiva 6",
-        professor: "Professor 6",
+        nome: "Práticas de Laboratório",
+        professor: "Renato",
         serie: "2",
         diaDaSemana: "QUINTA",
       },
       {
-        nome: "Eletiva 7",
-        professor: "Professor 7",
+        nome: "Iniciação aos Fundamentos do Basquete",
+        professor: "Eli",
         serie: "2",
         diaDaSemana: "QUINTA",
       },
       {
-        nome: "Eletiva 8",
-        professor: "Professor 8",
+        nome: "PNL e as Técnicas de Vendas",
+        professor: "Alex",
         serie: "2",
         diaDaSemana: "QUINTA",
       },
       {
-        nome: "Eletiva 1",
-        professor: "Professor 1",
+        nome: "Explorando Soluções Estratégicas",
+        professor: "Magnun",
         serie: "3",
       },
       {
-        nome: "Eletiva 2",
-        professor: "Professor 2",
+        nome: "Resolução de Questões",
+        professor: "Paulo",
         serie: "3",
       },
       {
-        nome: "Eletiva 3",
-        professor: "Professor 3",
+        nome: "Revendo a Física de Olho no Enem",
+        professor: "Carlos",
         serie: "3",
       },
       {
-        nome: "Eletiva 4",
-        professor: "Professor 4",
+        nome: "Iniciação ao Futsal",
+        professor: "Diego",
         serie: "3",
       },
     ],

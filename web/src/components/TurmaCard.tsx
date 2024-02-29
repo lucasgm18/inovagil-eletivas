@@ -17,6 +17,7 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    console.log("class", turma.id);
     registerClasses({ matricula: user!.matricula, classId: turma.id });
     setOpen(false);
     location.reload();
@@ -45,7 +46,7 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
           }
         )}
       >
-        <span>Disciplina: {turma.nome}</span>
+        <span>{turma.nome}</span>
         <span>Professor: {turma.professor}</span>
         <span>Vagas: {turma.quantidadeDeAlunos}/45</span>
       </Dialog.Trigger>

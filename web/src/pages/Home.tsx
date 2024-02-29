@@ -3,6 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useClasses } from "../hooks/useClasses";
 import TurmaCard from "../components/TurmaCard";
 import AlunoCadastrado from "../components/AlunoCadastrado";
+import LogoutButton from "../components/LogoutButton";
 
 function Home() {
   const { user } = useAuth();
@@ -37,8 +38,8 @@ function Home() {
             <AlunoCadastrado />
           ) : (
             <p>
-              Como você é do {user.serie} ano, você pode selecionar {user.serie === "2" ? "duas" : "uma" } dentre
-              essas eletivas
+              Como você é do {user.serie} ano, você pode selecionar{" "}
+              {user.serie === "2" ? "duas" : "uma"} dentre essas eletivas
             </p>
           )}
         </div>
@@ -85,6 +86,7 @@ function Home() {
             })
         )}
       </div>
+      <LogoutButton />
     </div>
   );
 }
