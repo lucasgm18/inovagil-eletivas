@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup src/server.ts",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,8 @@
     "@types/node": "^20.11.19",
     "prisma": "^5.10.2",
     "ts-node": "^10.9.2",
+    "tsc": "^2.0.4",
+    "tsup": "^8.0.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"
   },
