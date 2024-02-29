@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.19",
     "prisma": "^5.10.2",
     "ts-node": "^10.9.2",
@@ -21,6 +22,7 @@
     "@prisma/client": "^5.10.2",
     "csv-parse": "^5.5.3",
     "fastify": "^4.26.1",
+    "jsonwebtoken": "^9.0.2",
     "zod": "^3.22.4"
   },
   "prisma": {
