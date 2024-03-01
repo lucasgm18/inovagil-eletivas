@@ -20,15 +20,15 @@ async function main() {
     .on("error", function (error) {
       console.log(error.message);
     })
-    .on("end", function () {
+    .on("end", async function () {
       // Here log the result array
       console.log("parsed csv data:");
       console.log(data);
+      await prisma.students.createMany({
+        data,
+      });
     });
 
-  await prisma.students.createMany({
-    data,
-  });
   await prisma.classes.createMany({
     data: [
       {

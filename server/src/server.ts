@@ -22,9 +22,9 @@ app.get("/", (req, res) => {
 
 app.listen(
   {
-    port: 3333,
+    port: Number(process.env.PORT),
   },
   () => {
-    console.log("Server is running");
+    console.log(`Server is running on http://localhost:${process.env.PORT}`);
   }
 );
