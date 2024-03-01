@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useState } from "react";
 import { api } from "../lib/axios";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 export interface ClassesContextProps {
   getClassesBySerie: ({ serie }: { serie: string }) => void;
@@ -54,10 +54,19 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     classId: string;
   }) {
     if (matricula && classId) {
-      await api.post("/class", {
-        matricula,
-        classId,
-      });
+      try {
+        await api.post("/class", {
+          matricula,
+          classId,
+        });
+        alert("Usuário cadastrado com sucesso");
+        location.reload();
+      } catch (error) {
+        if (error && error instanceof AxiosError) {
+          alert(error.response!.data);
+          location.reload();
+        }
+      }
     }
   }
   return (

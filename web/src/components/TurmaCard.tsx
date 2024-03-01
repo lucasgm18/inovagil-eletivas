@@ -20,7 +20,7 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
     console.log("class", turma.id);
     registerClasses({ matricula: user!.matricula, classId: turma.id });
     setOpen(false);
-    location.reload();
+    
   }
 
   function handleBgColor(id: string) {

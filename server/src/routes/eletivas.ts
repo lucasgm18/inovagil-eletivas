@@ -30,7 +30,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
     });
 
     if (!turma) {
-      return res.status(500).send("Id da Turma inválido");
+      return res.status(400).send("Id da Turma inválido");
     }
     return res.status(200).send(turma);
   });
@@ -68,12 +68,12 @@ export async function EletivasRoutes(app: FastifyInstance) {
           },
         });
         if (pivo[0].classesId === classId) {
-          return res.status(500).send("Usuário já cadastrado nessa disciplina");
+          return res.status(400).send("Usuário já cadastrado nessa disciplina");
         }
 
         if (classFromPivo.diaDaSemana === turma.diaDaSemana) {
           if (turma.quantidadeDeAlunos === 45) {
-            return res.status(500).send("Não há vagas disponíveis");
+            return res.status(400).send("Não há vagas disponíveis");
           }
           await prisma.alunosMatriculados.delete({
             where: {
@@ -135,7 +135,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
       }
       if (pivo.length === 2) {
         if (pivo[0].classesId === turma.id || pivo[1].classesId === turma.id) {
-          return res.status(500).send("Usuário já cadastrado nessa disciplina");
+          return res.status(400).send("Usuário já cadastrado nessa disciplina");
         }
         const firstClassFromPivo = await prisma.classes.findUnique({
           where: {
@@ -149,7 +149,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
         });
         if (firstClassFromPivo.diaDaSemana === turma.diaDaSemana) {
           if (turma.quantidadeDeAlunos === 45) {
-            return res.status(500).send("Não há vagas disponíveis");
+            return res.status(400).send("Não há vagas disponíveis");
           }
           await prisma.alunosMatriculados.delete({
             where: {
@@ -187,7 +187,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
         }
         if (secondClassFromPivo.diaDaSemana === turma.diaDaSemana) {
           if (turma.quantidadeDeAlunos === 45) {
-            return res.status(500).send("Não há vagas disponíveis");
+            return res.status(400).send("Não há vagas disponíveis");
           }
           console.log("passou pelo limitador");
           await prisma.alunosMatriculados.delete({
@@ -227,7 +227,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
 
         if (turma.quantidadeDeAlunos === 45) {
           console.log("não tem vagas primeiro cadastro");
-          return res.status(500).send("Não há vagas disponíveis");
+          return res.status(400).send("Não há vagas disponíveis");
         }
 
         await prisma.alunosMatriculados.delete({
@@ -266,7 +266,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
 
       if (turma.quantidadeDeAlunos === 45) {
         console.log("não há vagas disponíveis");
-        return res.status(500).send("Não há vagas disponíveis");
+        return res.status(400).send("Não há vagas disponíveis");
       }
       const novaMatricula = await prisma.alunosMatriculados.create({
         data: {
@@ -288,7 +288,12 @@ export async function EletivasRoutes(app: FastifyInstance) {
 
     if (pivo.length !== 0) {
       if (pivo[0].classesId === turma.id) {
-        return res.status(500).send("Usuário já cadastrado na disciplina");
+        console.log("caiu aq");
+        return res.status(400).send("Usuário já cadastrado na disciplina");
+      }
+
+      if (turma.quantidadeDeAlunos === 45) {
+        return res.status(400).send("Não há vagas disponíveis");
       }
 
       const classFromPivo = await prisma.classes.findUnique({
@@ -331,6 +336,10 @@ export async function EletivasRoutes(app: FastifyInstance) {
       return res.status(200).send(`usuário cadastrado em: ${novaMatricula}`);
     }
     console.log(classId);
+
+    if (turma.quantidadeDeAlunos === 45) {
+      return res.status(400).send("Não há vagas disponíveis");
+    }
 
     const novaMatricula = await prisma.alunosMatriculados.create({
       data: {

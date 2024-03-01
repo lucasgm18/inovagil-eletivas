@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 app.listen(
   {
     port: Number(process.env.PORT),
-    host: "0.0.0.0"
+    host: "0.0.0.0",
   },
   () => {
     console.log(`Server is running on http://0.0.0.0:${process.env.PORT}`);
