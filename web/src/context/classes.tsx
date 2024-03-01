@@ -22,6 +22,7 @@ export interface ClassesProps {
   professor: string;
   serie: string;
   quantidadeDeAlunos: number;
+  diaDaSemana: "TERCA" | "QUINTA";
 }
 
 export const ClassesContext = createContext({} as ClassesContextProps);

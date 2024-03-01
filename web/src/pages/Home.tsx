@@ -54,8 +54,8 @@ function Home() {
                   .sort((a, b) =>
                     a.nome > b.nome ? 1 : b.nome > a.nome ? -1 : 0
                   )
-                  .map((turma, i) => {
-                    if (i < 4) {
+                  .map((turma) => {
+                    if (turma.diaDaSemana === "TERCA") {
                       return <TurmaCard turma={turma} key={turma.id} />;
                     }
                     return;
@@ -69,8 +69,8 @@ function Home() {
                   .sort((a, b) =>
                     a.nome > b.nome ? 1 : b.nome > a.nome ? -1 : 0
                   )
-                  .map((turma, i) => {
-                    if (i >= 4) {
+                  .map((turma) => {
+                    if (turma.diaDaSemana === "QUINTA") {
                       return <TurmaCard turma={turma} key={turma.id} />;
                     }
                     return;
