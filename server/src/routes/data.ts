@@ -73,6 +73,8 @@ export async function ExportData(app: FastifyInstance) {
         if (fs.existsSync(csvFilePath)) {
           const url = `http://localhost:3333/export/download/${ano}`;
           console.log(url);
+          reply.header("Access-Control-Allow-Origin", "*");
+          reply.header("Access-Control-Allow-Methods", "POST");
           return reply.status(200).send(url);
         }
         // return reply.status(200).send(`export/download/${ano}`);
@@ -94,6 +96,8 @@ export async function ExportData(app: FastifyInstance) {
   // }
 
   app.get("/download/:ano", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "POST");
     const paramsSchema = z.object({
       ano: z.string(),
     });

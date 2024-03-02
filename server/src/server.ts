@@ -4,11 +4,11 @@ import { AuthRoutes } from "./routes/auth";
 import cors from "@fastify/cors";
 import { ExportData } from "./routes/data";
 
-
 const app = fastify();
 
 app.register(cors, {
   origin: "*",
+  methods: ["POST", "GET", "DELETE", "PUT"],
 });
 
 app.register(EletivasRoutes, {
