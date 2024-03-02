@@ -3,12 +3,13 @@ import Logo from "../assets/logo.png";
 import { FormEvent, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [matricula, setMatricula] = useState("");
   const [dataDeNascimento, setDataDeNascimento] = useState("");
   const { login, authorized } = useAuth();
-
+  const navigation = useNavigate()
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     login({ matricula, dataDeNascimento });
@@ -22,7 +23,7 @@ function Login() {
           Faça login para ter acesso a todas as funcionalidades
         </span>
       </div>
-      <div className="flex items-center justify-center w-full">
+      <div className="flex flex-col gap-2 items-center justify-center w-full">
         <form
           onSubmit={handleSubmit}
           className="bg-zinc-800 w-[80%] md:w-1/2 flex items-center justify-center flex-col space-y-8 py-8 rounded"
@@ -58,6 +59,10 @@ function Login() {
             <p className="text-red-500 text-sm">Usuário não validado</p>
           </div>
         </form>
+
+        <div>
+          <button onClick={()=>{navigation("/admin")}} className="text-sm hover:underline">Admin</button>
+        </div>
       </div>
     </div>
   );

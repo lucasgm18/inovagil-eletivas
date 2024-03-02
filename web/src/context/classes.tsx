@@ -12,6 +12,7 @@ export interface ClassesContextProps {
     classId: string;
   }) => void;
   getRegisteredClass: (classId: string[]) => void;
+  exportData: (ano: string, secret: string) => void;
   classes: ClassesProps[];
   turmaCadastrada: ClassesProps[];
 }
@@ -69,6 +70,15 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
       }
     }
   }
+
+  async function exportData(ano: string, secret: string) {
+    const { data } = await api.post("/export", {
+      ano,
+      secret,
+    });
+    console.log(data);
+    location.replace(`https://inovagil-eletivas.onrender.com/${data}`);
+  }
   return (
     <ClassesContext.Provider
       value={{
@@ -77,6 +87,7 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
         getRegisteredClass,
         classes,
         turmaCadastrada,
+        exportData,
       }}
     >
       {children}
