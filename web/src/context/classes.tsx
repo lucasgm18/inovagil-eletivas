@@ -15,6 +15,12 @@ export interface ClassesContextProps {
   exportData: (ano: string, secret: string) => void;
   classes: ClassesProps[];
   turmaCadastrada: ClassesProps[];
+  csvData: {
+      turma: string;
+      alunos: string[];
+      professor: string;
+      quantidade: number;
+    }[];
 }
 
 export interface ClassesProps {
@@ -31,6 +37,14 @@ export const ClassesContext = createContext({} as ClassesContextProps);
 export function ClassesContextProvider({ children }: { children: ReactNode }) {
   const [classes, setClasses] = useState<ClassesProps[]>([]);
   const [turmaCadastrada, setTurmaCadastrada] = useState<ClassesProps[]>([]);
+  const [csvData, setCsvData] = useState<
+    {
+      turma: string;
+      alunos: string[];
+      professor: string;
+      quantidade: number;
+    }[]
+  >([]);
   async function getClassesBySerie({ serie }: { serie: string }) {
     setClasses([]);
     const { data }: AxiosResponse = await api.get(`/class/${serie}`);
@@ -76,11 +90,14 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
       ano,
       secret,
     });
-    window.open(data, "_blank");
+    setCsvData(data);
+    console.log(data);
   }
+
   return (
     <ClassesContext.Provider
       value={{
+        csvData,
         getClassesBySerie,
         registerClasses,
         getRegisteredClass,

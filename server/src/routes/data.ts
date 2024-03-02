@@ -55,33 +55,7 @@ export async function ExportData(app: FastifyInstance) {
         })
       );
 
-      // convertToCsv(classes);
-      const csvFilePath = join(__dirname, "..", "public", "export.csv");
-      const csvWriter = createObjectCsvWriter({
-        path: csvFilePath,
-        fieldDelimiter: ",",
-        header: [
-          { id: "turma", title: "Turma" },
-          { id: "professor", title: "Professor" },
-          { id: "quantidade", title: "Quantidade de Alunos" },
-          { id: "alunos", title: "Alunos" },
-        ],
-      });
-
-      try {
-        csvWriter.writeRecords(classes);
-        if (fs.existsSync(csvFilePath)) {
-          const url = `http://localhost:3333/export/download/${ano}`;
-          console.log(url);
-          reply.header("Access-Control-Allow-Origin", "*");
-          reply.header("Access-Control-Allow-Methods", "POST");
-          return reply.status(200).send(url);
-        }
-        // return reply.status(200).send(`export/download/${ano}`);
-      } catch (error) {
-        console.error("Erro ao escrever no arquivo CSV:", error);
-        return reply.status(500).send("Erro ao escrever no arquivo CSV");
-      }
+      return reply.status(200).send(classes);
     }
   });
 
@@ -95,19 +69,19 @@ export async function ExportData(app: FastifyInstance) {
   //     .join("\n");
   // }
 
-  app.get("/download/:ano", async (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "POST");
-    const paramsSchema = z.object({
-      ano: z.string(),
-    });
-    const { ano } = paramsSchema.parse(req.params);
-    const filePath = join(__dirname, "..", "public", "export.csv");
-    res.header(
-      "Content-Disposition",
-      `attachment; filename=eletivas-${ano}-ano`
-    );
-    res.type("text/csv");
-    res.download("export.csv", `eletivas-${ano}-ano.csv`);
-  });
+  // app.get("/download/:ano", async (req, res) => {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Methods", "POST");
+  //   const paramsSchema = z.object({
+  //     ano: z.string(),
+  //   });
+  //   const { ano } = paramsSchema.parse(req.params);
+  //   const filePath = join(__dirname, "..", "public", "export.csv");
+  //   res.header(
+  //     "Content-Disposition",
+  //     `attachment; filename=eletivas-${ano}-ano`
+  //   );
+  //   res.type("text/csv");
+  //   res.download("export.csv", `eletivas-${ano}-ano.csv`);
+  // });
 }

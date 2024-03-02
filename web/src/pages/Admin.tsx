@@ -2,17 +2,20 @@ import { FormEvent, useState } from "react";
 import Loading from "../components/Loading";
 import { useClasses } from "../hooks/useClasses";
 import Input from "../components/Input";
+import { useNavigate } from "react-router-dom";
 
 function Admin() {
   const [value, setValue] = useState("1");
   const [secret, setSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const { exportData } = useClasses();
+  const navigation = useNavigate();
   function handleSubmit(e: FormEvent) {
     setLoading(true);
     e.preventDefault();
     exportData(value, secret);
     setLoading(false);
+    navigation("/admin/data");
   }
 
   return (
