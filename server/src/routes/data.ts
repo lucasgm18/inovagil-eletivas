@@ -56,7 +56,7 @@ export async function ExportData(app: FastifyInstance) {
       );
 
       // convertToCsv(classes);
-      const csvFilePath = join(__dirname, "..", "..", "public", "export.csv");
+      const csvFilePath = join(__dirname, "..", "public", "export.csv");
       const csvWriter = createObjectCsvWriter({
         path: csvFilePath,
         fieldDelimiter: ",",
@@ -98,7 +98,7 @@ export async function ExportData(app: FastifyInstance) {
       ano: z.string(),
     });
     const { ano } = paramsSchema.parse(req.params);
-    const filePath = join(__dirname, "..", "..", "public", "export.csv");
+    const filePath = join(__dirname, "..", "public", "export.csv");
     res.header(
       "Content-Disposition",
       `attachment; filename=eletivas-${ano}-ano`
