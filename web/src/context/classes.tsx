@@ -76,8 +76,7 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
       ano,
       secret,
     });
-    console.log(data);
-    location.replace(`https://inovagil-eletivas.onrender.com/${data}`);
+    window.open(data, "_blank");
   }
   return (
     <ClassesContext.Provider

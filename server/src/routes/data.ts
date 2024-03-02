@@ -20,65 +20,67 @@ export async function ExportData(app: FastifyInstance) {
 
     const { ano, secret } = bodySchema.parse(request.body);
 
-    if (secret === "Admin-ETE-Gil-Rodrigues-CdT") {
-      const turmas = await prisma.classes.findMany({
-        where: {
-          serie: ano,
-        },
-        include: { alunosMatriculados: true },
+    if (secret !== "Admin-ETE-Gil-Rodrigues-CdT") {
+      return reply.status(401).send("Usuário não autenticado");
+    }
+    const turmas = await prisma.classes.findMany({
+      where: {
+        serie: ano,
+      },
+      include: { alunosMatriculados: true },
+    });
+
+    if (turmas) {
+      const classes = await Promise.all(
+        turmas.map(async (turma) => {
+          const alunos = await Promise.all(
+            turma.alunosMatriculados.map(async (matricula) => {
+              const aluno = await prisma.students.findUnique({
+                where: {
+                  matricula: matricula.studentId,
+                },
+              });
+              if (aluno) {
+                return aluno.matricula;
+                // return { nome: aluno.nome, matricula: aluno.matricula };
+              }
+            })
+          );
+          return {
+            turma: turma.nome,
+            professor: turma.professor,
+            quantidade: turma.quantidadeDeAlunos,
+            alunos,
+          };
+        })
+      );
+
+      // convertToCsv(classes);
+      const csvFilePath = join(__dirname, "..", "..", "public", "export.csv");
+      const csvWriter = createObjectCsvWriter({
+        path: csvFilePath,
+        fieldDelimiter: ",",
+        header: [
+          { id: "turma", title: "Turma" },
+          { id: "professor", title: "Professor" },
+          { id: "quantidade", title: "Quantidade de Alunos" },
+          { id: "alunos", title: "Alunos" },
+        ],
       });
 
-      if (turmas) {
-        const classes = await Promise.all(
-          turmas.map(async (turma) => {
-            const alunos = await Promise.all(
-              turma.alunosMatriculados.map(async (matricula) => {
-                const aluno = await prisma.students.findUnique({
-                  where: {
-                    matricula: matricula.studentId,
-                  },
-                });
-                if (aluno) {
-                  return aluno.matricula;
-                  // return { nome: aluno.nome, matricula: aluno.matricula };
-                }
-              })
-            );
-            return {
-              turma: turma.nome,
-              professor: turma.professor,
-              quantidade: turma.quantidadeDeAlunos,
-              alunos,
-            };
-          })
-        );
-
-        // convertToCsv(classes);
-        const csvFilePath = join(__dirname, "..", "..", "public", "export.csv");
-        const csvWriter = createObjectCsvWriter({
-          path: csvFilePath,
-          header: [
-            { id: "turma", title: "Turma" },
-            { id: "professor", title: "Professor" },
-            { id: "quantidade", title: "Quantidade de Alunos" },
-            { id: "alunos", title: "Alunos" },
-          ],
-        });
-
-        try {
-          await csvWriter.writeRecords(classes);
-          // return reply.download("export.csv", `eletivas-${ano}-ano.csv`);
-          return reply.send(`export/download/${ano}`);
-        } catch (error) {
-          console.error("Erro ao escrever no arquivo CSV:", error);
-          return reply.status(500).send("Erro ao escrever no arquivo CSV");
+      try {
+        csvWriter.writeRecords(classes);
+        if (fs.existsSync(csvFilePath)) {
+          const url = `http://localhost:3333/export/download/${ano}`;
+          console.log(url);
+          return reply.status(200).send(url);
         }
+        // return reply.status(200).send(`export/download/${ano}`);
+      } catch (error) {
+        console.error("Erro ao escrever no arquivo CSV:", error);
+        return reply.status(500).send("Erro ao escrever no arquivo CSV");
       }
-      console.log("texte");
-      // return reply.download("export.csv", `eletivas-${ano}-ano.csv`);
-      return reply.send(`export/download/${ano}`);
     }
-    return reply.status(401).send("Usuário não autenticado");
   });
 
   // function convertToCsv(arr) {
@@ -102,8 +104,6 @@ export async function ExportData(app: FastifyInstance) {
       `attachment; filename=eletivas-${ano}-ano`
     );
     res.type("text/csv");
-    const fileStream = fs.createReadStream(filePath);
-    // fileStream.pipe(res.raw);
     res.download("export.csv", `eletivas-${ano}-ano.csv`);
   });
 }
