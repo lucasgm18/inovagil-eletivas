@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useState } from "react";
 import { api } from "../lib/axios";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 export interface ClassesContextProps {
   getClassesBySerie: ({ serie }: { serie: string }) => void;
@@ -12,8 +12,15 @@ export interface ClassesContextProps {
     classId: string;
   }) => void;
   getRegisteredClass: (classId: string[]) => void;
+  exportData: (ano: string, secret: string) => void;
   classes: ClassesProps[];
   turmaCadastrada: ClassesProps[];
+  csvData: {
+      turma: string;
+      alunos: string[];
+      professor: string;
+      quantidade: number;
+    }[];
 }
 
 export interface ClassesProps {
@@ -30,6 +37,14 @@ export const ClassesContext = createContext({} as ClassesContextProps);
 export function ClassesContextProvider({ children }: { children: ReactNode }) {
   const [classes, setClasses] = useState<ClassesProps[]>([]);
   const [turmaCadastrada, setTurmaCadastrada] = useState<ClassesProps[]>([]);
+  const [csvData, setCsvData] = useState<
+    {
+      turma: string;
+      alunos: string[];
+      professor: string;
+      quantidade: number;
+    }[]
+  >([]);
   async function getClassesBySerie({ serie }: { serie: string }) {
     setClasses([]);
     const { data }: AxiosResponse = await api.get(`/class/${serie}`);
@@ -54,20 +69,41 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     classId: string;
   }) {
     if (matricula && classId) {
-      await api.post("/class", {
-        matricula,
-        classId,
-      });
+      try {
+        await api.post("/class", {
+          matricula,
+          classId,
+        });
+        alert("Usuário cadastrado com sucesso");
+        location.reload();
+      } catch (error) {
+        if (error && error instanceof AxiosError) {
+          alert(error.response!.data);
+          location.reload();
+        }
+      }
     }
   }
+
+  async function exportData(ano: string, secret: string) {
+    const { data } = await api.post("/export", {
+      ano,
+      secret,
+    });
+    setCsvData(data);
+    console.log(data);
+  }
+
   return (
     <ClassesContext.Provider
       value={{
+        csvData,
         getClassesBySerie,
         registerClasses,
         getRegisteredClass,
         classes,
         turmaCadastrada,
+        exportData,
       }}
     >
       {children}

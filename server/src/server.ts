@@ -2,11 +2,13 @@ import fastify from "fastify";
 import { EletivasRoutes } from "./routes/eletivas";
 import { AuthRoutes } from "./routes/auth";
 import cors from "@fastify/cors";
+import { ExportData } from "./routes/data";
 
 const app = fastify();
 
 app.register(cors, {
   origin: "*",
+  methods: ["POST", "GET", "DELETE", "PUT"],
 });
 
 app.register(EletivasRoutes, {
@@ -14,6 +16,9 @@ app.register(EletivasRoutes, {
 });
 app.register(AuthRoutes, {
   prefix: "/auth",
+});
+app.register(ExportData, {
+  prefix: "/export",
 });
 
 app.get("/", (req, res) => {
@@ -23,7 +28,7 @@ app.get("/", (req, res) => {
 app.listen(
   {
     port: Number(process.env.PORT),
-    host: "0.0.0.0"
+    host: "0.0.0.0",
   },
   () => {
     console.log(`Server is running on http://0.0.0.0:${process.env.PORT}`);
