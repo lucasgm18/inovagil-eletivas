@@ -5,7 +5,7 @@ import { parse } from "csv-parse";
 async function main() {
   const data = [];
 
-  fs.createReadStream("./src/dados/alunos.csv")
+  fs.createReadStream("./src/dados/alunos2ano.csv")
     .pipe(
       parse({
         delimiter: ",",
@@ -33,26 +33,26 @@ async function main() {
       console.log("Students created");
       await prisma.classes.createMany({
         data: [
-          {
-            nome: "Educação financeira",
-            professor: "Paulo Herton",
-            serie: "1",
-          },
-          {
-            nome: "Iniciação Científica",
-            professor: "Daniel",
-            serie: "1",
-          },
-          {
-            nome: "Esportes Alternativos",
-            professor: "Diego",
-            serie: "1",
-          },
-          {
-            nome: "Natureza na Prática",
-            professor: "Fabíola",
-            serie: "1",
-          },
+          // {
+          //   nome: "Educação financeira",
+          //   professor: "Paulo Herton",
+          //   serie: "1",
+          // },
+          // {
+          //   nome: "Iniciação Científica",
+          //   professor: "Daniel",
+          //   serie: "1",
+          // },
+          // {
+          //   nome: "Esportes Alternativos",
+          //   professor: "Diego",
+          //   serie: "1",
+          // },
+          // {
+          //   nome: "Natureza na Prática",
+          //   professor: "Fabíola",
+          //   serie: "1",
+          // },
           {
             nome: "BIOEMFOCO",
             professor: "Fabíola",
@@ -101,26 +101,26 @@ async function main() {
             serie: "2",
             diaDaSemana: "QUINTA",
           },
-          {
-            nome: "Explorando Soluções Estratégicas",
-            professor: "Magnun",
-            serie: "3",
-          },
-          {
-            nome: "Resolução de Questões",
-            professor: "Paulo",
-            serie: "3",
-          },
-          {
-            nome: "Revendo a Física de Olho no Enem",
-            professor: "Carlos",
-            serie: "3",
-          },
-          {
-            nome: "Iniciação ao Futsal",
-            professor: "Diego",
-            serie: "3",
-          },
+          // {
+          //   nome: "Explorando Soluções Estratégicas",
+          //   professor: "Magnun",
+          //   serie: "3",
+          // },
+          // {
+          //   nome: "Resolução de Questões",
+          //   professor: "Paulo",
+          //   serie: "3",
+          // },
+          // {
+          //   nome: "Revendo a Física de Olho no Enem",
+          //   professor: "Carlos",
+          //   serie: "3",
+          // },
+          // {
+          //   nome: "Iniciação ao Futsal",
+          //   professor: "Diego",
+          //   serie: "3",
+          // },
         ],
       });
       console.log("Classes created");

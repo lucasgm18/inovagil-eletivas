@@ -5,7 +5,6 @@ import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
-
 function Admin() {
   const [value, setValue] = useState("1");
   const [secret, setSecret] = useState("");
@@ -45,9 +44,9 @@ function Admin() {
                   id="turma"
                   className="border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-2 text-zinc-50 py-2 rounded-md optional:bg-zinc-700 sele"
                 >
-                  <option value="1">1° Ano</option>
+                  {/* <option value="1">1° Ano</option> */}
                   <option value="2">2° Ano</option>
-                  <option value="3">3° Ano</option>
+                  {/* <option value="3">3° Ano</option> */}
                 </select>
               </div>
               <Input
