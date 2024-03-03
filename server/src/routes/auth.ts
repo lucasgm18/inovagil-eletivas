@@ -11,7 +11,7 @@ export async function AuthRoutes(app: FastifyInstance) {
     });
 
     const { matricula, dataDeNascimento } = bodySchema.parse(req.body);
-    const date = dataDeNascimento.split("-").reverse().join("/");
+    const date = dataDeNascimento;
     const user = await prisma.students.findUnique({
       where: {
         matricula,

@@ -39,9 +39,9 @@ function Login() {
             <Input
               value={dataDeNascimento}
               onChange={(e) => setDataDeNascimento(e.target.value)}
-              type="date"
-              label="Escolha sua data de nascimento"
-              data-format="00/00/0000"
+              type="text"
+              label="Digite sua data de nascimento"
+              placeholder="Ex: 03/02/2005"
             />
           </div>
           <div className="w-full flex items-center justify-center">

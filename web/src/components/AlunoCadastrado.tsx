@@ -12,11 +12,13 @@ function AlunoCadastrado() {
     <div className="flex w-full items-center justify-center">
       <span>
         Você já está cadastrado na turma{" "}
-        {turmaCadastrada
-          .map((turma) => {
-            return turma.nome;
-          })
-          .join(" e ")}
+        <span className="text-yellow-500">
+          {turmaCadastrada
+            .map((turma) => {
+              return turma.nome;
+            })
+            .join(" e ")}
+        </span>
         , caso deseje trocar sua matrícula, basta selecionar uma outra
         disciplina
       </span>

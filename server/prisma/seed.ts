@@ -21,20 +21,21 @@ async function main() {
       console.log(error.message);
     })
     .on("end", async function () {
-      // Here log the result array
-      console.log("parsed csv data:");
-      console.log(data);
       await prisma.alunosMatriculados.deleteMany();
+      console.log("Pivot deleted");
       await prisma.students.deleteMany();
+      console.log("Students deleted");
       await prisma.classes.deleteMany();
+      console.log("Classes deleted");
       await prisma.students.createMany({
         data,
       });
+      console.log("Students created");
       await prisma.classes.createMany({
         data: [
           {
             nome: "Educação financeira",
-            professor: "PAULO HERTON",
+            professor: "Paulo Herton",
             serie: "1",
           },
           {
@@ -122,6 +123,7 @@ async function main() {
           },
         ],
       });
+      console.log("Classes created");
     });
 }
 
