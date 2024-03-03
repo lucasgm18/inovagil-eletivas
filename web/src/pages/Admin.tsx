@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
 function Admin() {
-  const [value, setValue] = useState("1");
+  const [value, setValue] = useState("2");
   const [secret, setSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
