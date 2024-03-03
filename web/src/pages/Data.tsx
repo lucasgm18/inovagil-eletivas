@@ -1,14 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { useClasses } from "../hooks/useClasses";
-
+import { toast } from "sonner";
+import { Copy } from "lucide-react";
 function Data() {
   const navigation = useNavigate();
   const { csvData } = useClasses();
+  function handleCopiarMatriculas(item: {
+    turma: string;
+    alunos: string[];
+    professor: string;
+    quantidade: number;
+  }) {
+    navigator.clipboard.writeText(item.alunos.join(", "));
+    toast.success("Matriculas copiadas com sucesso");
+  }
 
   return (
     <div className="w-full bg-slate-900 flex-col flex items-center justify-center flex-1 min-h-screen text-zinc-50 space-y-6">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:w-[70%] w-full px-2">
+        <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -26,19 +36,31 @@ function Data() {
               <th scope="col" className="px-6 py-3">
                 Matriculas
               </th>
+              <th scope="col" className="px-6 py-3">
+                Copiar
+              </th>
             </tr>
           </thead>
           <tbody>
             {csvData.map((item) => {
               return (
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr
+                  key={item.turma}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
                   <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {item.turma}
                   </th>
                   <td className="px-6 py-4">{item.professor}</td>
                   <td className="px-6 py-4">{item.quantidade}</td>
-                  <td className="px-6 py-4">
-                    {item.alunos.join(", ")}
+                  <td className="px-6 py-4">{item.alunos.join(", ")}</td>
+                  <td className="px-6 py-4 flex items-center justify-center">
+                    <Copy
+                      onClick={() => {
+                        handleCopiarMatriculas(item);
+                      }}
+                      className="text-zinc-300 hover:cursor-pointer hover:text-zinc-100"
+                    />
                   </td>
                 </tr>
               );

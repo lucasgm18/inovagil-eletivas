@@ -16,11 +16,12 @@ export interface ClassesContextProps {
   classes: ClassesProps[];
   turmaCadastrada: ClassesProps[];
   csvData: {
-      turma: string;
-      alunos: string[];
-      professor: string;
-      quantidade: number;
-    }[];
+    turma: string;
+    alunos: string[];
+    professor: string;
+    quantidade: number;
+  }[];
+  visible: boolean | undefined;
 }
 
 export interface ClassesProps {
@@ -30,12 +31,18 @@ export interface ClassesProps {
   serie: string;
   quantidadeDeAlunos: number;
   diaDaSemana: "TERCA" | "QUINTA";
+  alunosMatriculados: {
+    id: string;
+    classesId: string;
+    studentId: string;
+  }[];
 }
 
 export const ClassesContext = createContext({} as ClassesContextProps);
 
 export function ClassesContextProvider({ children }: { children: ReactNode }) {
   const [classes, setClasses] = useState<ClassesProps[]>([]);
+  const [visible, setVisible] = useState<boolean | undefined>(undefined);
   const [turmaCadastrada, setTurmaCadastrada] = useState<ClassesProps[]>([]);
   const [csvData, setCsvData] = useState<
     {
@@ -86,18 +93,28 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
   }
 
   async function exportData(ano: string, secret: string) {
-    const { data } = await api.post("/export", {
-      ano,
-      secret,
-    });
-    setCsvData(data);
-    console.log(data);
+    setVisible(undefined);
+    try {
+      const data = await api.post("/export", {
+        ano,
+        secret,
+      });
+      setVisible(false);
+      setCsvData(data.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          setVisible(true);
+        }
+      }
+    }
   }
 
   return (
     <ClassesContext.Provider
       value={{
         csvData,
+        visible,
         getClassesBySerie,
         registerClasses,
         getRegisteredClass,

@@ -27,6 +27,9 @@ export async function EletivasRoutes(app: FastifyInstance) {
       where: {
         id: classId,
       },
+      include: {
+        alunosMatriculados: true,
+      },
     });
 
     if (!turma) {

@@ -20,15 +20,21 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
     console.log("class", turma.id);
     registerClasses({ matricula: user!.matricula, classId: turma.id });
     setOpen(false);
-    
   }
 
   function handleBgColor(id: string) {
     const matches = turmaCadastrada.filter((cadastrada) => {
       return cadastrada.id === id;
     });
+    console.log("matches", matches);
     if (matches.length !== 0) {
-      console.log(matches[0].id);
+      const bate = matches.find((turma) => {
+        return turma.alunosMatriculados.find((aluno) => {
+          return aluno.studentId === user!.matricula;
+        });
+      });
+
+      console.log(bate)
       return true;
     }
     return false;
@@ -38,11 +44,10 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
         className={clsx(
-          "w-full flex flex-col items-center justify-center space-y-6 bg-slate-800 rounded hover:bg-slate-700 py-6 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400",
+          "w-full flex flex-col items-center justify-center space-y-6 bg-slate-800 rounded hover:bg-slate-700 py-6 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-yellow-400",
           {
-            "bg-lime-800 hover:bg-lime-700 hover:ring-lime-200": handleBgColor(
-              turma.id
-            ),
+            "bg-green-700 hover:bg-green-600 hover:ring-green-200":
+              handleBgColor(turma.id),
           }
         )}
       >
@@ -62,12 +67,12 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
             >
               <p className="text-xl text-zinc-50 py-12 px-4 md:px-24">
                 Você tem certeza que deseja se cadastrar na eletiva{" "}
-                <span className="text-lime-500 relative">{turma.nome}</span>
+                <span className="text-yellow-500 relative">{turma.nome}</span>?
               </p>
               <div className="w-full absolute bottom-0">
                 <button
                   type="submit"
-                  className="bg-lime-500 hover:bg-lime-600 hover:cursor-pointer w-full rounded text-zinc-900 py-4"
+                  className="bg-yellow-500 hover:bg-yellow-600 hover:cursor-pointer w-full rounded text-zinc-900 font-bold text-lg py-4 focus-visible:ring-2 focus-visible:ring-white"
                 >
                   Sim
                 </button>
