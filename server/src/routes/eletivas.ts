@@ -109,9 +109,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
             },
           });
 
-          return res
-            .status(200)
-            .send(`Usuário cadastrado na turma ${novaMatricula}`);
+          return res.status(200).send("Cadastro relizado com sucesso!");
         }
 
         if (turma.quantidadeDeAlunos >= 45) {
@@ -134,11 +132,11 @@ export async function EletivasRoutes(app: FastifyInstance) {
           },
         });
         console.log("Cadastrou a segunda");
-        return res.status(200).send(`Nova matricula em ${novaMatricula.id}`);
+        return res.status(200).send("Cadastro relizado com sucesso!");
       }
       if (pivo.length === 2) {
         if (pivo[0].classesId === turma.id || pivo[1].classesId === turma.id) {
-          return res.status(400).send("Usuário já cadastrado nessa disciplina");
+          return res.status(400).send("Usuário já cadastrado nessa eletiva");
         }
         const firstClassFromPivo = await prisma.classes.findUnique({
           where: {
@@ -186,7 +184,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
           });
           return res
             .status(200)
-            .send(`Aluno cadastrado na nova turma ${novaMatricula}`);
+            .send("Cadastro na nova turma, relizado com sucesso!");
         }
         if (secondClassFromPivo.diaDaSemana === turma.diaDaSemana) {
           if (turma.quantidadeDeAlunos === 45) {
@@ -225,7 +223,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
           });
           return res
             .status(200)
-            .send(`Aluno cadastrado na nova turma ${novaMatricula}`);
+            .send("Cadastro na nova turma, relizado com sucesso!");
         }
 
         if (turma.quantidadeDeAlunos === 45) {
@@ -264,7 +262,9 @@ export async function EletivasRoutes(app: FastifyInstance) {
           },
         });
         console.log("Cadastrou a segunda, deletando a primeira");
-        return res.status(200).send(`Nova matricula em ${novaMatricula.id}`);
+        return res
+          .status(200)
+          .send("Cadastro na nova turma, relizado com sucesso!");
       }
 
       if (turma.quantidadeDeAlunos === 45) {
@@ -286,7 +286,7 @@ export async function EletivasRoutes(app: FastifyInstance) {
         },
       });
       console.log("Cadastrou a primeira");
-      return res.status(200).send(`Nova matricula em ${novaMatricula.id}`);
+      return res.status(200).send("Cadastro relizado com sucesso!");
     }
 
     if (pivo.length !== 0) {
@@ -336,7 +336,9 @@ export async function EletivasRoutes(app: FastifyInstance) {
         },
       });
 
-      return res.status(200).send(`usuário cadastrado em: ${novaMatricula}`);
+      return res
+        .status(200)
+        .send("Cadastro na nova turma, relizado com sucesso!");
     }
     console.log(classId);
 
@@ -363,6 +365,6 @@ export async function EletivasRoutes(app: FastifyInstance) {
     });
     console.log("Cadastrou a primeira");
 
-    return res.status(200).send(`usuário cadastrado em: ${novaMatricula}`);
+    return res.status(200).send("Cadastro relizado com sucesso!");
   });
 }

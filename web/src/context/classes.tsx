@@ -77,11 +77,11 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
   }) {
     if (matricula && classId) {
       try {
-        await api.post("/class", {
+        const { data } = await api.post("/class", {
           matricula,
           classId,
         });
-        alert("Usuário cadastrado com sucesso");
+        alert(data);
         location.reload();
       } catch (error) {
         if (error && error instanceof AxiosError) {
