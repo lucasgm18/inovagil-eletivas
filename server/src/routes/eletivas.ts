@@ -367,4 +367,63 @@ export async function EletivasRoutes(app: FastifyInstance) {
 
     return res.status(200).send("Cadastro relizado com sucesso!");
   });
+
+  app.get("/alunosnaomatriculados", async (req, res) => {
+    try {
+      const usuarios = await prisma.students.findMany({
+        include: {
+          turmasCadastradas: true,
+        },
+      });
+
+      const filter = usuarios.map(async (aluno) => {
+        if (aluno.turmasCadastradas.length === 0) {
+          return {
+            nome: aluno.nome,
+            matricula: aluno.matricula,
+            "data-de-nascimento": aluno.dataDeNascimento,
+            curso: aluno.curso,
+            serie: aluno.serie,
+            turmasCadastradas: "nenhuma turma cadastrada",
+          };
+        }
+        if (aluno.turmasCadastradas.length === 1) {
+          const classe = await prisma.classes.findUnique({
+            where: {
+              id: aluno.turmasCadastradas[0].classesId,
+            },
+          });
+          return {
+            nome: aluno.nome,
+            matricula: aluno.matricula,
+            "data-de-nascimento": aluno.dataDeNascimento,
+            curso: aluno.curso,
+            serie: aluno.serie,
+            turmasCadastradas: {
+              nome: classe.nome,
+              profesor: classe.professor,
+              serie: classe.serie,
+              "quantidade-de-alunos-matriculados": classe.quantidadeDeAlunos,
+            },
+          };
+        }
+      });
+      const result = await Promise.all(filter);
+      const teste = result.filter((element) => {
+        if (element !== null) {
+          return element;
+        }
+        return;
+      });
+
+      res
+        .status(200)
+        .send({
+          message: "Usuários cadastrados em apenas uma ou nenhuma eletiva",
+          data: teste,
+        });
+    } catch (error) {
+      res.status(500).send({ message: "Error", data: error });
+    }
+  });
 }
