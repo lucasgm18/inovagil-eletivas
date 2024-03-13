@@ -69,19 +69,21 @@ export async function ExportData(app: FastifyInstance) {
   //     .join("\n");
   // }
 
-  // app.get("/download/:ano", async (req, res) => {
-  //   res.header("Access-Control-Allow-Origin", "*");
-  //   res.header("Access-Control-Allow-Methods", "POST");
-  //   const paramsSchema = z.object({
-  //     ano: z.string(),
-  //   });
-  //   const { ano } = paramsSchema.parse(req.params);
-  //   const filePath = join(__dirname, "..", "public", "export.csv");
-  //   res.header(
-  //     "Content-Disposition",
-  //     `attachment; filename=eletivas-${ano}-ano`
-  //   );
-  //   res.type("text/csv");
-  //   res.download("export.csv", `eletivas-${ano}-ano.csv`);
-  // });
+  app.get("/download/:ano", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "POST");
+    const paramsSchema = z.object({
+      ano: z.string(),
+    });
+    const { ano } = paramsSchema.parse(req.params);
+    const filePath = join(__dirname, "..", "public", "test.xlsx");
+    res.header(
+      "Content-Disposition",
+      `attachment; filename=eletivas-${ano}-ano`
+    );
+    res.type(
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.download("test.xlsx", `eletivas-${ano}-ano.xlsx`);
+  });
 }

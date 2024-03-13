@@ -4,6 +4,7 @@ import { useClasses } from "../hooks/useClasses";
 import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import FormCadastroEletiva from "../components/Dialogs/FormCadastroEletiva";
 
 function Admin() {
   const [value, setValue] = useState("2");
@@ -65,6 +66,10 @@ function Admin() {
         ) : (
           <Loading />
         )}
+
+        <div>
+          <FormCadastroEletiva />
+        </div>
 
         <div
           className={clsx({

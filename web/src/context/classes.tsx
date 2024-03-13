@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useState } from "react";
 import { api } from "../lib/axios";
 import { AxiosError, AxiosResponse } from "axios";
+import { toast } from "sonner";
 
 export interface ClassesContextProps {
   getClassesBySerie: ({ serie }: { serie: string }) => void;
@@ -21,6 +22,19 @@ export interface ClassesContextProps {
     professor: string;
     quantidade: number;
   }[];
+  registerEletiva: ({
+    nome,
+    professor,
+    serie,
+    vagas,
+    diaDaSemana,
+  }: {
+    nome: string;
+    professor: string;
+    serie: number;
+    vagas: number;
+    diaDaSemana: string;
+  }) => void;
   visible: boolean | undefined;
 }
 
@@ -29,9 +43,9 @@ export interface ClassesProps {
   nome: string;
   professor: string;
   serie: string;
-  quantidadeDeAlunos: number;
+  vagas: number;
   diaDaSemana: "TERCA" | "QUINTA";
-  alunosMatriculados: {
+  alunos: {
     id: string;
     classesId: string;
     studentId: string;
@@ -92,6 +106,42 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function registerEletiva({
+    nome,
+    professor,
+    serie,
+    vagas,
+    diaDaSemana,
+  }: {
+    nome: string;
+    professor: string;
+    serie: number;
+    vagas: number;
+    diaDaSemana: string;
+  }) {
+    const stringSerie = String(serie);
+
+    try {
+      const eletiva = await api.post("/eletiva", {
+        nome,
+        professor,
+        serie: stringSerie,
+        vagas,
+        diaDaSemana,
+      });
+
+      if (eletiva) {
+        return toast.success(eletiva.data);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          return toast.error(error.response.data);
+        }
+      }
+    }
+  }
+
   async function exportData(ano: string, secret: string) {
     setVisible(undefined);
     try {
@@ -115,11 +165,12 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
       value={{
         csvData,
         visible,
-        getClassesBySerie,
-        registerClasses,
-        getRegisteredClass,
         classes,
         turmaCadastrada,
+        getClassesBySerie,
+        registerEletiva,
+        registerClasses,
+        getRegisteredClass,
         exportData,
       }}
     >

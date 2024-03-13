@@ -18,7 +18,7 @@ model Classes {
   nome               String
   professor          String
   serie              String
-  quantidadeDeAlunos Int                  @default(0)
+  vagas Int                  @default(1)
   diaDaSemana DiaDaSemana @default(TERCA)
   alunosMatriculados alunosMatriculados[]
 }
@@ -34,15 +34,21 @@ model alunosMatriculados {
   studentId String
 
   turma Classes  @relation(fields: [classesId], references: [id])
-  aluno Students @relation(fields: [studentId], references: [matricula])
+  aluno Users @relation(fields: [studentId], references: [matricula])
 }
 
 
-model Students {
+model Users {
   matricula         String               @id
   dataDeNascimento  String
   nome              String
   serie             String
   curso             String
   turmasCadastradas alunosMatriculados[]
+  role UserRole @default(USER)
+}
+
+enum UserRole {
+  ADM
+  USER
 }

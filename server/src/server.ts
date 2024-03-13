@@ -3,6 +3,7 @@ import { EletivasRoutes } from "./routes/eletivas";
 import { AuthRoutes } from "./routes/auth";
 import cors from "@fastify/cors";
 import { ExportData } from "./routes/data";
+import { ClassesRoutes } from "./routes/classes";
 
 const app = fastify();
 
@@ -13,6 +14,10 @@ app.register(cors, {
 
 app.register(EletivasRoutes, {
   prefix: "/class",
+});
+
+app.register(ClassesRoutes, {
+  prefix: "/eletiva",
 });
 app.register(AuthRoutes, {
   prefix: "/auth",
