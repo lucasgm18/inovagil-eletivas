@@ -55,8 +55,9 @@ function Home() {
                     a.nome > b.nome ? 1 : b.nome > a.nome ? -1 : 0
                   )
                   .map((turma) => {
+                    console.log("AAA", turma);
                     if (turma.diaDaSemana === "TERCA") {
-                      return <TurmaCard turma={turma} key={turma.id} />;
+                      return <TurmaCard turma={turma} key={`${turma.id}-${turma.nome}`} />;
                     }
                     return;
                   })}

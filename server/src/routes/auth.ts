@@ -12,7 +12,7 @@ export async function AuthRoutes(app: FastifyInstance) {
 
     const { matricula, dataDeNascimento } = bodySchema.parse(req.body);
     const date = dataDeNascimento;
-    const user = await prisma.students.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         matricula,
       },
@@ -61,7 +61,7 @@ export async function AuthRoutes(app: FastifyInstance) {
 
     const { matricula } = paramsSchema.parse(req.params);
 
-    const user = await prisma.students.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         matricula,
       },

@@ -68,6 +68,14 @@ function Data() {
           </tbody>
         </table>
       </div>
+      <a
+        className="bg-green-800 px-4 py-2 rounded hover:bg-green-700 hover:cursor-pointer hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400"
+       
+        target="_blank"
+        href="http://localhost:3333/export/download/2"
+      >
+        Download
+      </a>
       <button
         className="bg-green-800 px-4 py-2 rounded hover:bg-green-700 hover:cursor-pointer hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400"
         type="button"
