@@ -5,6 +5,7 @@ import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import FormCadastroEletiva from "../components/Dialogs/FormCadastroEletiva";
+import FormSubmitStudentsList from "../components/Dialogs/FormSubmitStudentsList";
 
 function Admin() {
   const [value, setValue] = useState("2");
@@ -69,6 +70,9 @@ function Admin() {
 
         <div>
           <FormCadastroEletiva />
+        </div>
+        <div>
+          <FormSubmitStudentsList />
         </div>
 
         <div

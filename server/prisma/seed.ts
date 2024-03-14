@@ -27,9 +27,9 @@ async function main() {
       console.log("Users deleted");
       await prisma.classes.deleteMany();
       console.log("Classes deleted");
-      await prisma.users.createMany({
-        data,
-      });
+      // await prisma.users.createMany({
+      //   data,
+      // });
       console.log("users created");
       await prisma.classes.createMany({
         data: [

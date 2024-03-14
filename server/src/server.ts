@@ -4,6 +4,7 @@ import { AuthRoutes } from "./routes/auth";
 import cors from "@fastify/cors";
 import { ExportData } from "./routes/data";
 import { ClassesRoutes } from "./routes/classes";
+import { StudentsRoutes } from "./routes/students";
 
 const app = fastify();
 
@@ -24,6 +25,9 @@ app.register(AuthRoutes, {
 });
 app.register(ExportData, {
   prefix: "/export",
+});
+app.register(StudentsRoutes, {
+  prefix: "/students",
 });
 
 app.get("/", (req, res) => {

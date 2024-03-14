@@ -2,7 +2,7 @@ import { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
-  type: "text" | "date" | "number";
+  type: "text" | "date" | "number" | "file";
   label: string;
 }
 
