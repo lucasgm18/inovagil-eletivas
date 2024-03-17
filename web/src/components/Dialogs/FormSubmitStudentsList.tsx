@@ -6,26 +6,22 @@ import Input from "../Input";
 import Loading from "../Loading";
 import * as Papa from "papaparse";
 import { useAdmin } from "../../hooks/useAdmin";
+import { StudentsProps } from "../../context/admin";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
 
 function FormSubmitStudentsList() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [file, setFile] = useState<File | unknown>();
-  const [data, setData] = useState<
-    {
-      matricula: string;
-      dataDeNascimento: string;
-      nome: string;
-      serie: string;
-      curso: string;
-    }[]
-  >([]);
+  const [file, setFile] = useState<File | Blob>();
+  const [secret, setSecret] = useState("");
+
   const { registerStudents } = useAdmin();
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     // Passing file data (event.target.files[0]) to parse using Papa.parse
 
-    if (e.target.files.length) {
+    if (e.target !== null && e.target.files !== null && e.target.files) {
       const inputFile = e.target.files[0];
 
       // If input type is correct set the state
@@ -37,19 +33,53 @@ function FormSubmitStudentsList() {
     e.preventDefault();
     setIsLoading(true);
     if (!file) {
+      setIsLoading(false);
       return;
     }
     const reader = new FileReader();
     reader.onload = async ({ target }) => {
-      const csv = Papa.parse(target.result, {
-        header: true,
-      });
-      const parsedData = csv?.data;
-      registerStudents(parsedData);
-      // parsedData.forEach((element: any) => {
-      //   setData((prevState) => [...prevState, element]);
-      // });
+      if (target !== null) {
+        try {
+          handleWithFile(target);
+          return setTimeout(() => {
+            setIsLoading(false);
+          }, 2000);
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            setIsLoading(false);
+            if (error.response) {
+              return toast.error(error.response.data);
+            }
+          }
+          setIsLoading(false);
+        }
+      }
     };
+
+    function handleWithFile(file: FileReader): StudentsProps[] | undefined {
+      if (file.result && typeof file.result === "string") {
+        const csv = Papa.parse<StudentsProps>(file.result, {
+          header: true,
+          dynamicTyping: true,
+        });
+        const parsedData = csv.data.map((element) => {
+          return {
+            matricula: String(element.matricula),
+            dataDeNascimento: element.dataDeNascimento,
+            serie: String(element.serie),
+            nome: element.nome,
+            curso: element.curso,
+          };
+        });
+
+        registerStudents({ data: parsedData, secret });
+
+        // parsedData.forEach((element: any) => {
+        //   setData((prevState) => [...prevState, element]);
+        // });
+        return csv.data;
+      }
+    }
     reader.readAsText(file);
   }
 
@@ -85,6 +115,13 @@ function FormSubmitStudentsList() {
                     min={1}
                     accept=".csv"
                     max={100}
+                  />
+                  <Input
+                    onChange={(e) => setSecret(e.target.value)}
+                    value={secret}
+                    label="Código admin"
+                    type="text"
+                    placeholder="Digite o código de administrador"
                   />
                 </div>
                 <div className="w-full absolute bottom-0">

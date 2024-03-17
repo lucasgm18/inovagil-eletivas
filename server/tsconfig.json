@@ -3,6 +3,7 @@
         "types": [
             "node"
         ],
+        "strict": true,
         "outDir": "./build",
     },
 }

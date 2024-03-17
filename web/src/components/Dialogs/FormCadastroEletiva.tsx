@@ -15,17 +15,11 @@ function FormCadastroEletiva() {
   const [vagas, setVagas] = useState(1);
   const [serie, setSerie] = useState(1);
   const [diaDaSemana, setDiaDaSemana] = useState("SEGUNDA");
+  const [secret, setSecret] = useState("");
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setIsLoading(true);
-    console.log("Eletiva cadastrada", {
-      nome,
-      professor,
-      vagas,
-      serie,
-      diaDaSemana,
-    });
-    registerEletiva({ nome, professor, vagas, serie, diaDaSemana });
+    registerEletiva({ nome, professor, vagas, serie, diaDaSemana, secret });
     setTimeout(() => {
       setOpen(false);
       setIsLoading(false);
@@ -88,14 +82,27 @@ function FormCadastroEletiva() {
                     min={1}
                     max={3}
                   />
+                  <div className="flex flex-col space-y-1 w-full px-4">
+                    <label htmlFor="turma">Selecione um ano</label>
+                    <select
+                      value={diaDaSemana}
+                      onChange={(e) => setDiaDaSemana(e.target.value)}
+                      name="turma"
+                      id="turma"
+                      className="border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-2 text-zinc-50 py-2 rounded-md optional:bg-zinc-700 sele"
+                    >
+                      <option value="SEGUNDA">Segunda-Feira</option>
+                      <option value="TERCA">Terça-Feira</option>
+                      <option value="QUARTA">Quarta-Feira</option>
+                      <option value="QUINTA">Quinta-Feira</option>
+                      <option value="SEXTA">Sexta-Feira</option>
+                    </select>
+                  </div>
                   <Input
-                    onChange={(e) => setDiaDaSemana(e.target.value)}
-                    value={diaDaSemana}
-                    label="Dia da Semana"
+                    onChange={(e) => setSecret(e.target.value)}
+                    value={secret}
+                    label="Código adm"
                     type="text"
-                    placeholder="Ex: SEGUNDA"
-                    min={1}
-                    max={100}
                   />
                 </div>
                 <div className="w-full absolute bottom-0">

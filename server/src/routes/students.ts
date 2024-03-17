@@ -7,30 +7,37 @@ export async function StudentsRoutes(app: FastifyInstance) {
     const bodySchema = z.object({
       data: z
         .object({
-          matricula: z.string(),
+          curso: z.string(),
           dataDeNascimento: z.string(),
           nome: z.string(),
+          matricula: z.string(),
           serie: z.string(),
-          curso: z.string(),
         })
         .array(),
+      secret: z.string().min(1, "O código admin deve ser preenchido"),
     });
-
-    const { data } = bodySchema.parse(req.body);
+    const { data, secret } = bodySchema.parse(req.body);
 
     if (!data) {
-      return res.status(400).send("Base de dados inválida");
+      return res.status(400).send({ message: "Base de dados inválida" });
     }
-    try {
-      const students = await prisma.users.createMany({
-        data,
-      });
+    if (secret === "Admin-ETE-Gil-Rodrigues-CdT") {
+      try {
+        const students = await prisma.users.createMany({
+          data,
+        });
 
-      return res.status(200).send("Base de dados inserida no banco de dados")
-    } catch (error) {
-      if (error instanceof Error) {
-        return res.status(500).send(error.message);
+        return res
+          .status(200)
+          .send({ message: "Base de dados inserida no banco de dados" });
+      } catch (error) {
+        if (error instanceof Error) {
+          return res.status(500).send({ message: error.message });
+        }
       }
     }
+    return res.status(400).send({
+      message: "Código admin inválido",
+    });
   });
 }
