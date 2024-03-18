@@ -28,12 +28,14 @@ export interface ClassesContextProps {
     serie,
     vagas,
     diaDaSemana,
+    secret,
   }: {
     nome: string;
     professor: string;
     serie: number;
     vagas: number;
     diaDaSemana: string;
+    secret: string;
   }) => void;
   visible: boolean | undefined;
 }
@@ -112,15 +114,16 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     serie,
     vagas,
     diaDaSemana,
+    secret,
   }: {
     nome: string;
     professor: string;
     serie: number;
     vagas: number;
     diaDaSemana: string;
+    secret: string;
   }) {
     const stringSerie = String(serie);
-
     try {
       const eletiva = await api.post("/eletiva", {
         nome,
@@ -128,6 +131,7 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
         serie: stringSerie,
         vagas,
         diaDaSemana,
+        secret,
       });
 
       if (eletiva) {
@@ -136,7 +140,7 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
-          return toast.error(error.response.data);
+          return toast.error(error.response.data.message);
         }
       }
     }
