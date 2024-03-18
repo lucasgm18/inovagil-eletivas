@@ -68,11 +68,13 @@ function Admin() {
           <Loading />
         )}
 
-        <div>
-          <FormCadastroEletiva />
-        </div>
-        <div>
-          <FormSubmitStudentsList />
+        <div className="w-full flex flex-row items-center justify-center space-x-12">
+          <div>
+            <FormCadastroEletiva />
+          </div>
+          <div>
+            <FormSubmitStudentsList />
+          </div>
         </div>
 
         <div
@@ -82,6 +84,16 @@ function Admin() {
           })}
         >
           <p className="text-red-500 text-sm">Código inválido</p>
+        </div>
+        <div className="w-full flex items-center justify-center">
+          <button
+            onClick={() => {
+              navigation("/");
+            }}
+            className="bg-blue-800 px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400"
+          >
+            Voltar
+          </button>
         </div>
       </div>
     </div>

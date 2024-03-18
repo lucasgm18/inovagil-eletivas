@@ -18,7 +18,7 @@ export interface ClassesContextProps {
   turmaCadastrada: ClassesProps[];
   csvData: {
     turma: string;
-    alunos: string[];
+    alunos: { nome: string; matricula: string }[];
     professor: string;
     quantidade: number;
   }[];
@@ -63,7 +63,7 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
   const [csvData, setCsvData] = useState<
     {
       turma: string;
-      alunos: string[];
+      alunos: { nome: string; matricula: string }[];
       professor: string;
       quantidade: number;
     }[]

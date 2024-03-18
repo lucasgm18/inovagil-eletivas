@@ -35,21 +35,21 @@ export async function ExportData(app: FastifyInstance) {
         turmas.map(async (turma) => {
           const alunos = await Promise.all(
             turma.alunosMatriculados.map(async (matricula) => {
-              const aluno = await prisma.students.findUnique({
+              const aluno = await prisma.users.findUnique({
                 where: {
                   matricula: matricula.studentId,
                 },
               });
               if (aluno) {
-                return aluno.matricula;
-                // return { nome: aluno.nome, matricula: aluno.matricula };
+                // return aluno.matricula;
+                return { nome: aluno.nome, matricula: aluno.matricula };
               }
             })
           );
           return {
             turma: turma.nome,
             professor: turma.professor,
-            quantidade: turma.quantidadeDeAlunos,
+            quantidade: turma.alunosMatriculados.length,
             alunos,
           };
         })

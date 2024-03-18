@@ -20,7 +20,7 @@ export async function AuthRoutes(app: FastifyInstance) {
         turmasCadastradas: true,
       },
     });
-    if (user.dataDeNascimento === date) {
+    if (user && user.dataDeNascimento === date) {
       const token = jwt.sign(
         { id: user.matricula, "data-de-nascimento": user.dataDeNascimento },
         String(process.env.JWTSECRET),
@@ -50,7 +50,6 @@ export async function AuthRoutes(app: FastifyInstance) {
         .send({ message: "Token válido", data: verifiedToken });
     } catch (error) {
       if (error instanceof Error) return error.message;
-      console.log(error.message);
     }
   });
 

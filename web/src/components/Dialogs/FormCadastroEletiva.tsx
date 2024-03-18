@@ -22,6 +22,12 @@ function FormCadastroEletiva() {
     registerEletiva({ nome, professor, vagas, serie, diaDaSemana, secret });
     setTimeout(() => {
       setOpen(false);
+      setSecret("");
+      setDiaDaSemana("SEGUNDA");
+      setVagas(1);
+      setSerie(1);
+      setNome("");
+      setProfessor("");
       setIsLoading(false);
     }, 1000);
   }
@@ -29,7 +35,7 @@ function FormCadastroEletiva() {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
         className={clsx(
-          "w-full flex flex-col items-center justify-center space-y-6 bg-slate-800 rounded hover:bg-slate-700 py-6 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-yellow-400"
+          "w-full flex flex-col items-center justify-center space-y-6 bg-slate-800 rounded hover:bg-slate-700 py-6 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-yellow-400 px-4"
         )}
       >
         <button>Cadastrar eletiva</button>
