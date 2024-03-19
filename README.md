@@ -43,4 +43,5 @@ Os facilitadores e futuros programadores, após demonstrarem suas habilidades e 
 
 ![React](https://img.shields.io/badge/React-%2361DAFB?style=flat&logo=react&logoColor=%23333333) ![Prisma](https://img.shields.io/badge/Prisma-%232D3748?style=flat&logo=prisma&logoColor=%23ffffff) ![TypeScript](https://img.shields.io/badge/TypeScript-%233178C6?style=flat&logo=typescript&logoColor=%23ffffff) ![TaiwindCSS](https://img.shields.io/badge/TailwindCSS-%2306B6D4?style=flat&logo=tailwindcss&logoColor=%23ffffff) ![Axios](https://img.shields.io/badge/Axios-%235A29E4?style=flat&logo=axios&logoColor=%23ffffff)
 ![Fastify](https://img.shields.io/badge/Fastify-%23000000?style=flat&logo=fastify&logoColor=%23ffffff) ![Postgresql](https://img.shields.io/badge/Postgresql-%234169E1?style=flat&logo=postgresql&logoColor=%23ffffff) ![Zod](https://img.shields.io/badge/Zod-%233E67B1?style=flat&logo=zod&logoColor=%23ffffff)
+
 </center>
