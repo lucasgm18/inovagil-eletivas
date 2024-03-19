@@ -35,10 +35,10 @@ function FormCadastroEletiva() {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
         className={clsx(
-          "w-full flex flex-col items-center justify-center space-y-6 bg-slate-800 rounded hover:bg-slate-700 py-6 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-yellow-400 px-4"
+          "w-full flex flex-col items-center justify-center space-y-6 bg-slate-800 rounded hover:bg-slate-700 py-2 hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-yellow-400 px-4"
         )}
       >
-        <button>Cadastrar eletiva</button>
+        <span>Cadastrar eletiva</span>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/60">

@@ -21,7 +21,7 @@ async function main() {
       console.log(error.message);
     })
     .on("end", async function () {
-      await prisma.alunosMatriculados.deleteMany();
+      // await prisma.alunosMatriculados.deleteMany();
       // console.log("Pivot deleted");
       // // await prisma.users.deleteMany();
       // console.log("Users deleted");
@@ -139,7 +139,7 @@ async function main() {
       //     },
       //   ],
       // });
-      console.log("Classes created");
+      // console.log("Classes created");
     });
 }
 

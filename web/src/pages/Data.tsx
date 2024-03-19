@@ -12,11 +12,11 @@ function Data() {
     quantidade: number;
   }) {
     navigator.clipboard.writeText(
-      `Eletiva\tProfessor\tQuantidade de alunos matriculados\n${item.turma}\t${
-        item.professor
+      `Eletiva\tProfessor\tQuantidade de alunos matriculados\n${item.turma.toUpperCase()}\t${
+        item.professor.toUpperCase()
       }\t${item.quantidade}\n\nNome\tMatrícula\n${item.alunos
         .map((aluno) => {
-          return `${aluno.nome.trim()}\t${aluno.matricula.trim()}`;
+          return `${aluno.nome.trim().toUpperCase()}\t${aluno.matricula.trim()}`;
         })
         .join("\n")}`
     );
@@ -25,8 +25,8 @@ function Data() {
 
   return (
     <div className="w-full bg-slate-900 flex-col flex items-center justify-center flex-1 min-h-screen text-zinc-50 space-y-6">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:w-[70%] w-full px-2">
-        <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
+      <div className="relative overflow-x-auto shadow-md md:w-[70%] w-full px-2">
+        <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 rounded-md overflow-hidden">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -82,17 +82,11 @@ function Data() {
           </tbody>
         </table>
       </div>
-      <a
-        className="bg-green-800 px-4 py-2 rounded hover:bg-green-700 hover:cursor-pointer hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400"
-        target="_blank"
-        href="http://localhost:3333/export/download/2"
-      >
-        Download
-      </a>
+
       <button
         className="bg-green-800 px-4 py-2 rounded hover:bg-green-700 hover:cursor-pointer hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 outline-none focus-visible:ring-lime-400"
         type="button"
-        onClick={() => navigation("/")}
+        onClick={() => navigation("/admin")}
       >
         Início
       </button>
