@@ -2,13 +2,13 @@ import { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
-  type: "text" | "date" | "number";
+  type: "text" | "date" | "number" | "file";
   label: string;
 }
 
 function Input({ placeholder, type, label, ...rest }: InputProps) {
   return (
-    <div className="flex flex-col space-y-1 w-full px-4">
+    <div className="flex flex-col space-y-1 w-full md:px-4">
       <label htmlFor="matricula">{label}</label>
       <input
         type={type}

@@ -18,14 +18,17 @@ model Classes {
   nome               String
   professor          String
   serie              String
-  quantidadeDeAlunos Int                  @default(0)
-  diaDaSemana DiaDaSemana @default(TERCA)
+  vagas              Int                  @default(1)
+  diaDaSemana        DiaDaSemana          @default(TERCA)
   alunosMatriculados alunosMatriculados[]
 }
 
 enum DiaDaSemana {
+  SEGUNDA
   TERCA
+  QUARTA
   QUINTA
+  SEXTA
 }
 
 model alunosMatriculados {
@@ -33,16 +36,21 @@ model alunosMatriculados {
   classesId String
   studentId String
 
-  turma Classes  @relation(fields: [classesId], references: [id])
-  aluno Students @relation(fields: [studentId], references: [matricula])
+  turma Classes @relation(fields: [classesId], references: [id])
+  aluno Users   @relation(fields: [studentId], references: [matricula])
 }
 
-
-model Students {
+model Users {
   matricula         String               @id
   dataDeNascimento  String
   nome              String
   serie             String
   curso             String
   turmasCadastradas alunosMatriculados[]
+  role              UserRole             @default(USER)
+}
+
+enum UserRole {
+  ADM
+  USER
 }

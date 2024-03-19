@@ -9,7 +9,7 @@ function Login() {
   const [matricula, setMatricula] = useState("");
   const [dataDeNascimento, setDataDeNascimento] = useState("");
   const { login, authorized } = useAuth();
-  const navigation = useNavigate()
+  const navigation = useNavigate();
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     login({ matricula, dataDeNascimento });
@@ -26,7 +26,7 @@ function Login() {
       <div className="flex flex-col gap-2 items-center justify-center w-full">
         <form
           onSubmit={handleSubmit}
-          className="bg-zinc-800 w-[80%] md:w-1/2 flex items-center justify-center flex-col space-y-8 py-8 rounded"
+          className="bg-zinc-800 w-[80%] md:w-1/2 flex items-center justify-center flex-col space-y-8 py-8 rounded px-4 md:px-0"
         >
           <div className="w-full space-y-4">
             <Input
@@ -60,8 +60,15 @@ function Login() {
           </div>
         </form>
 
-        <div>
-          <button onClick={()=>{navigation("/admin")}} className="text-sm hover:underline">Admin</button>
+        <div className="">
+          <button
+            onClick={() => {
+              navigation("/admin");
+            }}
+            className="text-sm hover:underline hover:text-yellow-500 transition-colors duration-150"
+          >
+            Área da secretaria
+          </button>
         </div>
       </div>
     </div>
