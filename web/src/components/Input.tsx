@@ -13,7 +13,7 @@ function Input({ placeholder, type, label, ...rest }: InputProps) {
       <input
         type={type}
         name="matricula"
-        className="w-full border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-2 text-zinc-50 py-2 rounded-md"
+        className="w-full border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/60 px-2 text-zinc-50 py-2 rounded-md"
         placeholder={placeholder}
         {...rest}
       />

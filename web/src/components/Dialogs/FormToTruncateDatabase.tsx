@@ -42,9 +42,9 @@ function FormToTruncateDatabase() {
             ) : (
               <form
                 onSubmit={handleParse}
-                className="flex items-center flex-col justify-start text-center h-screen"
+                className="flex md:text-justify items-center flex-col justify-start text-center h-screen"
               >
-                <div className="w-full flex flex-col space-y-4 items-start text-left pt-8 px-2">
+                <div className="w-full flex flex-col space-y-4 items-start text-left pt-8 px-4">
                   <span>
                     Você deseja detetar{" "}
                     <span className="text-red-500">todas</span> as informações
@@ -55,6 +55,8 @@ function FormToTruncateDatabase() {
                     Esse processo é{" "}
                     <span className="text-red-500">irreversível</span>.
                   </p>
+                </div>
+                <div className="w-full flex items-start justify-center text-left pt-6">
                   <Input
                     onChange={(e) => setSecret(e.target.value)}
                     value={secret}

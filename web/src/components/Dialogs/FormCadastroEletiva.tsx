@@ -14,7 +14,7 @@ function FormCadastroEletiva() {
   const [professor, setProfessor] = useState("");
   const [vagas, setVagas] = useState(1);
   const [serie, setSerie] = useState(1);
-  const [diaDaSemana, setDiaDaSemana] = useState("SEGUNDA");
+  const [diaDaSemana, setDiaDaSemana] = useState("");
   const [secret, setSecret] = useState("");
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -23,7 +23,7 @@ function FormCadastroEletiva() {
     setTimeout(() => {
       setOpen(false);
       setSecret("");
-      setDiaDaSemana("SEGUNDA");
+      setDiaDaSemana("");
       setVagas(1);
       setSerie(1);
       setNome("");
@@ -42,7 +42,7 @@ function FormCadastroEletiva() {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/60">
-          <Dialog.Content className="text-slate-400 bg-slate-700 flex flex-col md:max-w-[640px] w-full fixed md:rounded-md inset-0 md:inset-auto outline-none md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 md:min-h-[60vh] overflow-hidden">
+          <Dialog.Content className="text-slate-400 bg-slate-700 flex flex-col md:max-w-[640px] w-full fixed md:rounded-md inset-0 md:inset-auto outline-none md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 md:min-h-[90vh] md:h-[90vh overflow-y-auto">
             <Dialog.Close className="absolute right-0 top-0 bg-slate-800 p-1.5 text-slate-400 roudend-md hover:text-slate-100">
               <X className="size-5" />
             </Dialog.Close>
@@ -79,23 +79,30 @@ function FormCadastroEletiva() {
                     min={1}
                     max={100}
                   />
-                  <Input
-                    onChange={(e) => setSerie(e.target.valueAsNumber)}
-                    value={serie}
-                    label="Série"
-                    type="number"
-                    placeholder="Ex: 1"
-                    min={1}
-                    max={3}
-                  />
-                  <div className="flex flex-col space-y-1 w-full px-4">
+                  <div className="w-full flex flex-col px-4">
                     <label htmlFor="turma">Selecione um ano</label>
                     <select
+                      defaultValue={1}
+                      value={serie}
+                      onChange={(e) => setSerie(Number(e.target.value))}
+                      name="turma"
+                      id="turma"
+                      className="w-fullborder-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-2 text-zinc-50 py-2 rounded-md optional:bg-zinc-700"
+                    >
+                      <option value={1}>1° Ano</option>
+                      <option value={2}>2° Ano</option>
+                      <option value={3}>3° Ano</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col space-y-1 w-full px-4">
+                    <label htmlFor="turma">Selecione um dia da semana</label>
+                    <select
+                      defaultValue={"SEGUNDA"}
                       value={diaDaSemana}
                       onChange={(e) => setDiaDaSemana(e.target.value)}
                       name="turma"
                       id="turma"
-                      className="border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-2 text-zinc-50 py-2 rounded-md optional:bg-zinc-700 sele"
+                      className="border-b-2 border-transparent focus-visible:border-[#edf100] outline-none bg-zinc-700/30 px-2 text-zinc-50 py-2 rounded-md optional:bg-zinc-700"
                     >
                       <option value="SEGUNDA">Segunda-Feira</option>
                       <option value="TERCA">Terça-Feira</option>
