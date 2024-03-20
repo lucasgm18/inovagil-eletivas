@@ -41,6 +41,7 @@ function Admin() {
               <div className="flex flex-col space-y-1 w-full md:px-4">
                 <label htmlFor="turma">Selecione um ano</label>
                 <select
+                defaultValue={"1"}
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   name="turma"

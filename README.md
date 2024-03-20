@@ -25,17 +25,80 @@ Foi desenvolvido com o intuito de facilitar a organização da escolha das eleti
 
 O sistema permitirá que os alunos façam o login utilizando suas informações pessoais cadastradas na escola, para a ter acesso as opções de escolhas disponiveis no sistema, se diferenciando pelo ano que está inserido, e com a quantidade de vagas disponiveis.
 
+---
+
+### Área aluno
+
+![login_page]()
+
+Ao fazer login, o aluno terá acesso as disciplinas disponíveis para matrícula, indicando quantas vagas ainda restam.
+
+![homepage_unregistered]()
+
+Ao clicar em uma das turmas, um modal será aberto solicitando a confirmação do usuário para que então a matrícula seja realizada.
+
+![modal_register]()
+
+Selecionando a opção **sim**, se a turma tiver vagas disponveís e o aluno estiver apto a matricula, o aluno será matriculado na disciplina correspondente, atualizando a página e demonstrando agora que ele está matriculado naquela turma, e as vagas da disciplina serão atualizadas.
+Caso a disciplina não tenha vagas disponíveis, um erro é disparado alertando ao usuário que não há vagas para aquela disciplina, ele deve então, selecionar uma outra disciplina.
+
+![homepage_registered]()
+
+---
+
+### Área secretaria
+
+A homepage da área administrativa apresentará um forulário inicial, para exportação dos dados das turmas baseados nos anos.
+
+![admin_screen]()
+
+Selecionando o ano e digitando o código de administrador, você sera redirecionado a uma outra página, contanto com uma tabela com todas as informações das turmas do ano selecionado, demonstrando quantos alunos se matricularam, e quais são esse alunos.
+
+![export_data]()
+
+Contamos também com um botão para copiar as informações, ao seleciona-lo, será copiado para sua área de transferência as informações da turma selecionada, podendo ser colada em um arquivo tipo xlsx (Excel, LibreOffice Calc ou Google Planilhas)
+
+![excel_example]()
+
+Ao seleciona o botão **Cadastrar eletiva**, um modal será habilitado, com um formulário, para o cadastro da eletiva.
+
+![class_register]()
+
+Ao seleciona o botão **Cadastrar base de alunos**, um modal será habilitado, com um formulário, para a importação da base de dados dos alunos.
+
+> [!IMPORTANT]
+> A base de dados deve ser um arquivo tipo .csv, delimitado por vírgulas (","), e a primeira linha desse arquivo deve conter os campos necessários, estritamente na ordem correta, para um correto mapeamento no banco de dados :
+
+```text
+-   matricula
+-   nome
+-   data de nascimento
+-   serie
+-   curso
+```
+
+![students_register]()
+
+Ao seleciona o botão **Zerar banco de dados**, um modal será habilitado, para a confirmação da ação.
+
+> [!CAUTION]
+> Lembrando que essa ação é irreversível e deletará toda e qualquer informação presente no banco de dados.
+
+![truncate_database]()
+
 ## ✔ Conclusão
 
 Os facilitadores e futuros programadores, após demonstrarem suas habilidades e criatividade no decorrer do desenvolvimento do projeto, possibilitou a funcionalidade aos estudantes integrados a se encaixarem nas suas devidas eletivas de escolha, obtendo sucesso e aprovação pelos usuários.
 
 ## &copy; Créditos
 
-    Maycom Willams
-    Lucas Gomes
-    Nathália Sousa
-    Eduarda Albuquerque
-    Edilson Bernardo
+```text
+Maycom Willams
+Lucas Gomes
+Nathália Sousa
+Eduarda Albuquerque
+Edilson Bernardo
+```
 
 ## 💻 Tecnologias
 
