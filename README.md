@@ -29,20 +29,20 @@ O sistema permitirá que os alunos façam o login utilizando suas informações 
 
 ### Área aluno
 
-![login_page]()
+![login_page](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/login_screen.png)
 
 Ao fazer login, o aluno terá acesso as disciplinas disponíveis para matrícula, indicando quantas vagas ainda restam.
 
-![homepage_unregistered]()
+![homepage_unregistered](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/homepage_unregistered.png)
 
 Ao clicar em uma das turmas, um modal será aberto solicitando a confirmação do usuário para que então a matrícula seja realizada.
 
-![modal_register]()
+![modal_register](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/modal_register.png)
 
 Selecionando a opção **sim**, se a turma tiver vagas disponveís e o aluno estiver apto a matricula, o aluno será matriculado na disciplina correspondente, atualizando a página e demonstrando agora que ele está matriculado naquela turma, e as vagas da disciplina serão atualizadas.
 Caso a disciplina não tenha vagas disponíveis, um erro é disparado alertando ao usuário que não há vagas para aquela disciplina, ele deve então, selecionar uma outra disciplina.
 
-![homepage_registered]()
+![homepage_registered](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/homepage_registered.png)
 
 ---
 
@@ -50,19 +50,19 @@ Caso a disciplina não tenha vagas disponíveis, um erro é disparado alertando 
 
 A homepage da área administrativa apresentará um forulário inicial, para exportação dos dados das turmas baseados nos anos.
 
-![admin_screen]()
+![admin_screen](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/admin_screen.png)
 
 Selecionando o ano e digitando o código de administrador, você sera redirecionado a uma outra página, contanto com uma tabela com todas as informações das turmas do ano selecionado, demonstrando quantos alunos se matricularam, e quais são esse alunos.
 
-![export_data]()
+![export_data](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/export_data.png)
 
 Contamos também com um botão para copiar as informações, ao seleciona-lo, será copiado para sua área de transferência as informações da turma selecionada, podendo ser colada em um arquivo tipo xlsx (Excel, LibreOffice Calc ou Google Planilhas)
 
-![excel_example]()
+![excel_example](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/excel_example.png)
 
 Ao seleciona o botão **Cadastrar eletiva**, um modal será habilitado, com um formulário, para o cadastro da eletiva.
 
-![class_register]()
+![class_register](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/class_register.png)
 
 Ao seleciona o botão **Cadastrar base de alunos**, um modal será habilitado, com um formulário, para a importação da base de dados dos alunos.
 
@@ -76,15 +76,19 @@ Ao seleciona o botão **Cadastrar base de alunos**, um modal será habilitado, c
 -   serie
 -   curso
 ```
+![csv_example](https://github.com/Maycomwill/inovagil-eletivas/assets/74081416/9cae0904-ce78-4acb-a9aa-143d8778a347)
 
-![students_register]()
+![students_register](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/students_register.png)
 
 Ao seleciona o botão **Zerar banco de dados**, um modal será habilitado, para a confirmação da ação.
 
 > [!CAUTION]
 > Lembrando que essa ação é irreversível e deletará toda e qualquer informação presente no banco de dados.
 
-![truncate_database]()
+![truncate_database](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/truncate_databse.png)
+
+> [!NOTE]
+> Todas as ações executadas na área da secretaria é necessário digitar o código de admin.
 
 ## ✔ Conclusão
 
