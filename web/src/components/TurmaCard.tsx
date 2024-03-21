@@ -5,11 +5,12 @@ import { useAuth } from "../hooks/useAuth";
 import { FormEvent, useState } from "react";
 import { useClasses } from "../hooks/useClasses";
 import clsx from "clsx";
+import Loading from "./Loading";
 
 function TurmaCard({ turma }: { turma: ClassesProps }) {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
-  const { registerClasses } = useClasses();
+  const { registerClasses, isLoading } = useClasses();
 
   if (!user) {
     return <div>Carregando ...</div>;
@@ -19,7 +20,9 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
     e.preventDefault();
     console.log("class", turma.id);
     registerClasses({ matricula: user!.matricula, classId: turma.id });
-    setOpen(false);
+    setTimeout(() => {
+      setOpen(false);
+    }, 2000);
   }
 
   console.log(turma.nome);
@@ -32,7 +35,9 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
       >
         <span>{turma.nome}</span>
         <span>Professor: {turma.professor}</span>
-        <span>Vagas: {turma.alunos.length}/{turma.vagas}</span>
+        <span>
+          Vagas: {turma.alunos.length}/{turma.vagas}
+        </span>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/60">
@@ -40,23 +45,30 @@ function TurmaCard({ turma }: { turma: ClassesProps }) {
             <Dialog.Close className="absolute right-0 top-0 bg-slate-800 p-1.5 text-slate-400 roudend-md hover:text-slate-100">
               <X className="size-5" />
             </Dialog.Close>
-            <form
-              onSubmit={handleSubmit}
-              className="flex items-center flex-col justify-start text-center h-screen"
-            >
-              <p className="text-xl text-zinc-50 py-12 px-4 md:px-24">
-                Você tem certeza que deseja se cadastrar na eletiva{" "}
-                <span className="text-yellow-500 relative">{turma.nome}</span>?
-              </p>
-              <div className="w-full absolute bottom-0">
-                <button
-                  type="submit"
-                  className="bg-yellow-500 hover:bg-yellow-600 hover:cursor-pointer w-full rounded text-zinc-900 font-bold text-lg py-4 focus-visible:ring-2 focus-visible:ring-white"
-                >
-                  Sim
-                </button>
+            {isLoading ? (
+              <div className="w-full flex items-center justify-center h-full">
+                <Loading />
               </div>
-            </form>
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="flex items-center flex-col justify-start text-center h-screen"
+              >
+                <p className="text-xl text-zinc-50 py-12 px-4 md:px-24">
+                  Você tem certeza que deseja se cadastrar na eletiva{" "}
+                  <span className="text-yellow-500 relative">{turma.nome}</span>
+                  ?
+                </p>
+                <div className="w-full absolute bottom-0">
+                  <button
+                    type="submit"
+                    className="bg-yellow-500 hover:bg-yellow-600 hover:cursor-pointer w-full rounded text-zinc-900 font-bold text-lg py-4 focus-visible:ring-2 focus-visible:ring-white"
+                  >
+                    Sim
+                  </button>
+                </div>
+              </form>
+            )}
           </Dialog.Content>
         </Dialog.Overlay>
       </Dialog.Portal>

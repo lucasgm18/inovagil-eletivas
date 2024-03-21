@@ -15,11 +15,11 @@ function Login() {
     login({ matricula, dataDeNascimento });
   }
   return (
-    <div className="w-full bg-slate-900 flex-col flex items-center justify-start flex-1 min-h-screen text-zinc-50 pb-12">
-      <img src={Logo} className="size-48" alt="" />
+    <div className="w-full bg-slate-900 flex-col flex items-center justify-start flex-1 min-h-screen text-zinc-50">
+      <img src={Logo} className="size-36" alt="" />
       <div className="flex items-center flex-col justify-center text-center space-y-6 md:space-y-2 my-2 pb-4">
-        <h1 className="text-3xl md:text-4xl font-bold">Bem vindo(a)</h1>
-        <span className="text-xl">
+        <h1 className="text-3xl md:text-3xl font-bold">Bem vindo(a)</h1>
+        <span className="text-lg">
           Faça login para ter acesso a todas as funcionalidades
         </span>
       </div>
@@ -56,7 +56,7 @@ function Login() {
               visible: authorized === false,
             })}
           >
-            <p className="text-red-500 text-sm">Usuário não validado</p>
+            <p className="text-red-500 text-xs">Usuário não validado</p>
           </div>
         </form>
 

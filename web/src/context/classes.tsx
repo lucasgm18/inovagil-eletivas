@@ -38,6 +38,7 @@ export interface ClassesContextProps {
     secret: string;
   }) => void;
   visible: boolean | undefined;
+  isLoading: boolean;
 }
 
 export interface ClassesProps {
@@ -57,6 +58,7 @@ export interface ClassesProps {
 export const ClassesContext = createContext({} as ClassesContextProps);
 
 export function ClassesContextProvider({ children }: { children: ReactNode }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [classes, setClasses] = useState<ClassesProps[]>([]);
   const [visible, setVisible] = useState<boolean | undefined>(undefined);
   const [turmaCadastrada, setTurmaCadastrada] = useState<ClassesProps[]>([]);
@@ -92,17 +94,24 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     classId: string;
   }) {
     if (matricula && classId) {
+      setIsLoading(true);
       try {
         const { data } = await api.post("/class", {
           matricula,
           classId,
         });
-        alert(data);
-        location.reload();
+        toast.success(data);
+        setTimeout(() => {
+          setIsLoading(false);
+          location.reload();
+        }, 1000);
       } catch (error) {
         if (error && error instanceof AxiosError) {
-          alert(error.response!.data);
-          location.reload();
+          toast.error(error.response!.data);
+          setTimeout(() => {
+            setIsLoading(false);
+            location.reload();
+          }, 1000);
         }
       }
     }
@@ -167,6 +176,7 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
   return (
     <ClassesContext.Provider
       value={{
+        isLoading,
         csvData,
         visible,
         classes,

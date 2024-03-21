@@ -39,7 +39,7 @@ Ao clicar em uma das turmas, um modal será aberto solicitando a confirmação d
 
 ![modal_register]()
 
-Selecionando a opção **sim**, se a turma tiver vagas disponveís e o aluno estiver apto a matricula, o aluno será matriculado na disciplina correspondente, atualizando a página e demonstrando agora que ele está matriculado naquela turma, e as vagas da disciplina serão atualizadas.
+Selecionando a opção **sim**, se a turma tiver vagas disponíveis e o aluno estiver apto a matricula, o aluno será matriculado na disciplina correspondente, atualizando a página e demonstrando agora que ele está matriculado naquela turma, e as vagas da disciplina serão atualizadas.
 Caso a disciplina não tenha vagas disponíveis, um erro é disparado alertando ao usuário que não há vagas para aquela disciplina, ele deve então, selecionar uma outra disciplina.
 
 ![homepage_registered]()
@@ -48,7 +48,7 @@ Caso a disciplina não tenha vagas disponíveis, um erro é disparado alertando 
 
 ### Área secretaria
 
-A homepage da área administrativa apresentará um forulário inicial, para exportação dos dados das turmas baseados nos anos.
+A homepage da área administrativa apresentará um formulário inicial, para exportação dos dados das turmas baseados nos anos.
 
 ![admin_screen]()
 
